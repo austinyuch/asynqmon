@@ -1,19 +1,19 @@
 import React, { useState } from "react";
 import { connect, ConnectedProps } from "react-redux";
-import Container from "@material-ui/core/Container";
-import { makeStyles } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
-import Paper from "@material-ui/core/Paper";
-import Typography from "@material-ui/core/Typography";
-import Slider from "@material-ui/core/Slider";
+import Container from "@mui/material/Container";
+import { makeStyles } from "tss-react/mui";
+import Grid from "@mui/material/Grid";
+import Paper from "@mui/material/Paper";
+import Typography from "@mui/material/Typography";
+import Slider from "@mui/material/Slider";
 import { pollIntervalChange, selectTheme } from "../actions/settingsActions";
 import { AppState } from "../store";
-import FormControl from "@material-ui/core/FormControl/FormControl";
-import Select from "@material-ui/core/Select";
-import MenuItem from "@material-ui/core/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
 import { ThemePreference } from "../reducers/settingsReducer";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles()((theme) => ({
   container: {
     paddingTop: theme.spacing(4),
     paddingBottom: theme.spacing(4),
@@ -53,7 +53,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
 function SettingsView(props: PropsFromRedux) {
-  const classes = useStyles();
+  const { classes } = useStyles();
 
   const [sliderValue, setSliderValue] = useState(props.pollInterval);
   const handleSliderValueChange = (event: any, val: number | number[]) => {
@@ -64,12 +64,12 @@ function SettingsView(props: PropsFromRedux) {
     props.pollIntervalChange(val as number);
   };
 
-  const handleThemeChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+  const handleThemeChange = (event: SelectChangeEvent<ThemePreference>) => {
     props.selectTheme(event.target.value as ThemePreference);
   };
   return (
     <Container maxWidth="lg" className={classes.container}>
-      <Grid container spacing={3} justify="center">
+      <Grid container spacing={3} justifyContent="center">
         <Grid item xs={1} />
         <Grid item xs={6}>
           <Typography variant="h5" color="textPrimary">

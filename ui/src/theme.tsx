@@ -1,6 +1,6 @@
-import { createTheme, Theme } from "@material-ui/core/styles";
+import { createTheme, Theme } from "@mui/material/styles";
 import { ThemePreference } from "./reducers/settingsReducer";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 export function useTheme(themePreference: ThemePreference): Theme {
   let prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
@@ -21,11 +21,11 @@ export function useTheme(themePreference: ThemePreference): Theme {
       background: {
         default: "#f5f7f9",
       },
-      type: prefersDarkMode ? "dark" : "light",
+      mode: prefersDarkMode ? "dark" : "light",
     },
   });
 }
 
 export function isDarkTheme(theme: Theme): boolean {
-  return theme.palette.type === "dark";
+  return theme.palette.mode === "dark";
 }

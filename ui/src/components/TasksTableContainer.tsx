@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { connect, ConnectedProps } from "react-redux";
-import { makeStyles } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
-import Paper from "@material-ui/core/Paper";
-import Chip from "@material-ui/core/Chip";
-import InputBase from "@material-ui/core/InputBase";
-import SearchIcon from "@material-ui/icons/Search";
+import { makeStyles } from 'tss-react/mui';
+import Typography from "@mui/material/Typography";
+import Paper from "@mui/material/Paper";
+import Chip from "@mui/material/Chip";
+import InputBase from "@mui/material/InputBase";
+import SearchIcon from "@mui/icons-material/Search";
 import ActiveTasksTable from "./ActiveTasksTable";
 import PendingTasksTable from "./PendingTasksTable";
 import ScheduledTasksTable from "./ScheduledTasksTable";
@@ -77,7 +77,7 @@ interface Props {
   selected: string;
 }
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles()((theme) => ({
   container: {
     width: "100%",
     height: "100%",
@@ -139,7 +139,7 @@ const useStyles = makeStyles((theme) => ({
   inputInput: {
     padding: theme.spacing(1, 1, 1, 0),
     // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
+    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
     width: "100%",
     fontSize: "0.85rem",
   },
@@ -147,7 +147,7 @@ const useStyles = makeStyles((theme) => ({
 
 function TasksTableContainer(props: Props & ReduxProps) {
   const { currentStats } = props;
-  const classes = useStyles();
+  const { classes } = useStyles();
   const history = useHistory();
   const chips = [
     { key: "active", label: "Active", count: currentStats.active },

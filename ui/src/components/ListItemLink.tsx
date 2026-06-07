@@ -1,10 +1,9 @@
 import React, { ReactElement } from "react";
-import clsx from "clsx";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
-import Tooltip from "@material-ui/core/Tooltip";
-import { makeStyles } from "@material-ui/core/styles";
+import ListItem from "@mui/material/ListItem";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import Tooltip from "@mui/material/Tooltip";
+import { makeStyles } from 'tss-react/mui';
 import {
   useRouteMatch,
   Link as RouterLink,
@@ -12,7 +11,7 @@ import {
 } from "react-router-dom";
 import { isDarkTheme } from "../theme";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles()((theme) => ({
   listItem: {
     borderTopRightRadius: "24px",
     borderBottomRightRadius: "24px",
@@ -43,7 +42,7 @@ interface Props {
 
 // Note: See https://material-ui.com/guides/composition/ for details.
 function ListItemLink(props: Props): ReactElement {
-  const classes = useStyles();
+  const { classes, cx } = useStyles();
   const { icon, primary, to } = props;
   const isMatch = useRouteMatch({
     path: to,
@@ -64,10 +63,10 @@ function ListItemLink(props: Props): ReactElement {
         <ListItem
           button
           component={renderLink}
-          className={clsx(classes.listItem, isMatch && classes.selected)}
+          className={cx(classes.listItem, isMatch && classes.selected)}
         >
           {icon && (
-            <ListItemIcon className={clsx(isMatch && classes.selectedIcon)}>
+            <ListItemIcon className={cx(isMatch && classes.selectedIcon)}>
               {icon}
             </ListItemIcon>
           )}
