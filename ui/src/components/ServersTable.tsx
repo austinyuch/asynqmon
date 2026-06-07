@@ -82,7 +82,7 @@ function sortServerInfos(
   entries: ServerInfo[],
   cmpFn: (first: ServerInfo, second: ServerInfo) => number
 ): ServerInfo[] {
-  let copy = [...entries];
+  const copy = [...entries];
   copy.sort(cmpFn);
   return copy;
 }
@@ -96,7 +96,7 @@ export default function ServersTable(props: Props) {
   const [sortBy, setSortBy] = useState<SortBy>(SortBy.HostPID);
   const [sortDir, setSortDir] = useState<SortDirection>(SortDirection.Asc);
 
-  const createSortClickHandler = (sortKey: SortBy) => (e: React.MouseEvent) => {
+  const createSortClickHandler = (sortKey: SortBy) => (_e: React.MouseEvent) => {
     if (sortKey === sortBy) {
       // Toggle sort direction.
       const nextSortDir =
@@ -142,7 +142,7 @@ export default function ServersTable(props: Props) {
         isS1Smaller = s1.active_workers.length < s2.active_workers.length;
         break;
       default:
-        // eslint-disable-next-line no-throw-literal
+         
         throw `Unexpected order by value: ${sortBy}`;
     }
     if (sortDir === SortDirection.Asc) {

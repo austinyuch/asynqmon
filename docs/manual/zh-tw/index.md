@@ -122,10 +122,17 @@ flowchart LR
 
 ![Settings dark](../assets/settings-config-02-dark.png)
 
-## Metrics(已知 gap)
+## Metrics
+
+啟用:`--enable-metrics-exporter --prometheus-addr=<prom>`;exporter 佔用 server 的 `/metrics` 路徑,**UI 的 Metrics 頁在 `/q/metrics`**(側欄進入)。
+
+![Metrics live](../assets/metrics-live-01-charts.png)
+*真實圖表(Prometheus 5s scrape + demo worker 流量):Tasks Processed / Failed / Error Rate。SPEC-005 起為 full-integration 證據(IL-004 已解)。*
+
+![Metrics more](../assets/metrics-live-02-charts-more.png)
 
 ![Metrics gap](../assets/metrics-gap-01-no-prometheus.png)
-*⚠️ **Evidence Source** = live screenshot(graceful 空態)· **Coverage Tier** = `not_assessed` · **Readiness State** = `not_assessed` · Code: `DEMO_NOT_ASSESSED`(ISSUE_LOG IL-004)。本頁需要 server 以 `--enable-metrics-exporter` 啟動且配置 Prometheus(`--prometheus-addr`);demo 環境未配 Prometheus,僅證明該頁 graceful 渲染,不證明圖表功能。*
+*對照:未配置 Prometheus 時的 graceful 空態。*
 
 ## CLI flags 速查(server 部署)
 

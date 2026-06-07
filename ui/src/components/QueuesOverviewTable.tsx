@@ -100,7 +100,7 @@ function sortQueues(
   queues: QueueWithMetadata[],
   cmpFn: (first: QueueWithMetadata, second: QueueWithMetadata) => number
 ): QueueWithMetadata[] {
-  let copy = [...queues];
+  const copy = [...queues];
   copy.sort(cmpFn);
   return copy;
 }
@@ -112,7 +112,7 @@ export default function QueuesOverviewTable(props: Props) {
   const [queueToDelete, setQueueToDelete] = useState<QueueWithMetadata | null>(
     null
   );
-  const createSortClickHandler = (sortKey: SortBy) => (e: React.MouseEvent) => {
+  const createSortClickHandler = (sortKey: SortBy) => (_e: React.MouseEvent) => {
     if (sortKey === sortBy) {
       // Toggle sort direction.
       const nextSortDir =
@@ -162,7 +162,7 @@ export default function QueuesOverviewTable(props: Props) {
         isQ1Smaller = q1ErrorRate < q2ErrorRate;
         break;
       default:
-        // eslint-disable-next-line no-throw-literal
+         
         throw `Unexpected order by value: ${sortBy}`;
     }
     if (sortDir === SortDirection.Asc) {

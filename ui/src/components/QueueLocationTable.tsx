@@ -8,7 +8,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import { QueueLocation } from "../api";
 
-const useStyles = makeStyles()((theme) => ({
+const useStyles = makeStyles()((_theme) => ({
   table: {
     minWidth: 650,
   },

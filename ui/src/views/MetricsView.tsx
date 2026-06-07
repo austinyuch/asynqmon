@@ -239,7 +239,7 @@ function MetricsView(props: Props) {
               yAxisTickFormatter={(val: number) => {
                 try {
                   return prettyBytes(val);
-                } catch (error) {
+                } catch {
                   return val + "B";
                 }
               }}
