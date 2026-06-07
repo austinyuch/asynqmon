@@ -15,4 +15,8 @@
 | REQ-R18-003 react-router 6 | SPEC-004B | 同上 | PASS | smoke deep-link/client-nav;path-to-regexp pin 退役 |
 | REQ-R18-004 TypeScript 5 | SPEC-004B | 同上 | PASS | tsc 139→0;vitest types 原生解析 |
 
+| REQ-QG-001 UI E2E 正式基線 | SPEC-005 | 005/design.md(Q-R1/Q-R4)、Q-T1/T4 | PASS | `ui/e2e/smoke.spec.ts` 7/7;build.yml e2e job(PR #18 CI 綠) |
+| REQ-QG-002 eslint 鏈 | SPEC-005 | 005/design.md、Q-T2 | PASS | `yarn lint` 0 errors;CI lint step |
+| REQ-QG-003 Metrics 真實驗證 | SPEC-005 | 005/design.md(Q-R2)、Q-T3 | PASS | `docs/manual/assets/metrics-live-01/02.png`(61 svg data paths);IL-R09 |
+
 Cross-cutting evidence:`.agents/specs/TESTS.md`(rollup)、`ui/TESTS.md`(row-level)、FORK.md divergence 表。
