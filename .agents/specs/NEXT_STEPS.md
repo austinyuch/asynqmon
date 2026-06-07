@@ -1,9 +1,8 @@
 # NEXT_STEPS (rolling operational memo)
 
-- **Classification**: new spec ×4(SPEC-001 full cycle;SPEC-002/003/004 authoring-only)
-- **Active spec**: 001-ui-runtime-vuln-hardening(branch `spec/001-ui-runtime-vuln-hardening`)
-- **Current phase**: Phase 5/6 closeout(T-1…T-5 完成,review.md PASS;T-6 PR 流程中)
-- **Next action**: SPEC-001 PR → CI 綠 → merge → 勾 T-6、SPECS.md 改 Completed
-- **After merge**: 從更新後 main 開 `spec/ui-eol-migration-authoring` lane,author SPEC-002/003/004(pending implementation),PR → merge
+- **Classification**: SPEC-001 完成;SPEC-002/003/004 authoring 完成,pending implementation
+- **Active spec**: 無(authoring lane `spec/ui-eol-migration-authoring` 收尾中)
+- **Current phase**: SPEC-002/003/004 requirements 已落檔;待 PR merge 後全部 specs 進入待命
+- **Next action**: merge authoring PR → 之後任一 EOL 遷移開工時,從 SPEC-002 開始(順序:002 → 004 Phase A → 003 → 004 Phase B),屆時補各 spec 的 design.md/tasks.md
 - **Blockers**: 無
-- **Resume hint**: spec docs 見 `001-ui-runtime-vuln-hardening/`;audit 證據在其 `reports/`
+- **Resume hint**: registry 見 [SPECS.md](./SPECS.md);SPEC-001 證據在 `001-ui-runtime-vuln-hardening/reports/`

@@ -7,4 +7,4 @@ Branch lane: `spec/001-ui-runtime-vuln-hardening`(single writable worktree)
 - [x] T-3 `NODE_OPTIONS=--openssl-legacy-provider yarn build`;若 d3-color 致 build 失敗 → 移除該 resolution 重跑並記錄(FMEA R-2);commit 新 `ui/build/` [Implements REQ-UIVULN-002]
 - [x] T-4 驗證:`reports/audit-after.txt` 比對;bundle 指紋檢查(axios 版本字串);`go build && go vet && go test -race -count=1 ./...` [Implements REQ-UIVULN-001, REQ-UIVULN-002]
 - [x] T-5 新增 `githooks/pre-push`(govulncheck,fail-closed);本機實跑一次;`FORK.md` 記錄啟用方式與 UI resolutions divergence [Implements REQ-UIVULN-003]
-- [ ] T-6 closeout:`ui/TESTS.md` + workspace `TESTS.md` rollup、`review.md`、`SPECS.md` / `NEXT_STEPS.md` 回寫、PR → CI 綠 → merge [Implements all]
+- [x] T-6 closeout:`ui/TESTS.md` + workspace `TESTS.md` rollup、`review.md`、`SPECS.md` / `NEXT_STEPS.md` 回寫、PR → CI 綠 → merge [Implements all]
