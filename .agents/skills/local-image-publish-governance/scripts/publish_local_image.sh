@@ -4,19 +4,20 @@
 # See SKILL.md for the rules this implements.
 set -euo pipefail
 
-NAME="" CONTEXT="." CONTAINERFILE="" SMOKE_ARG="--help" WITH_LATEST=1 PLATFORM=""
+NAME="" CONTEXT="." CONTAINERFILE="" SMOKE_ARG="--help" SMOKE_EXPECT=0 WITH_LATEST=1 PLATFORM=""
 while [ $# -gt 0 ]; do
   case "$1" in
     --name) NAME="$2"; shift 2 ;;
     --context) CONTEXT="$2"; shift 2 ;;
     --containerfile) CONTAINERFILE="$2"; shift 2 ;;
     --smoke-arg) SMOKE_ARG="$2"; shift 2 ;;
+    --smoke-expect) SMOKE_EXPECT="$2"; shift 2 ;;
     --no-latest) WITH_LATEST=0; shift ;;
     --platform) PLATFORM="$2"; shift 2 ;;
     *) echo "unknown arg: $1" >&2; exit 2 ;;
   esac
 done
-[ -n "$NAME" ] || { echo "usage: publish_local_image.sh --name <name> [--context dir] [--containerfile path] [--smoke-arg --help] [--no-latest] [--platform os/arch]" >&2; exit 2; }
+[ -n "$NAME" ] || { echo "usage: publish_local_image.sh --name <name> [--context dir] [--containerfile path] [--smoke-arg --help] [--smoke-expect 0] [--no-latest] [--platform os/arch]" >&2; exit 2; }
 
 # 1) runtime: prefer rootless podman
 if command -v podman >/dev/null 2>&1; then RT=podman; else RT=docker; fi
@@ -56,9 +57,11 @@ GOT_ARCH=$("$RT" image inspect "$TMP_TAG" --format '{{.Architecture}}')
 echo ">> arch gate OK ($GOT_ARCH)"
 
 # 5) smoke gate (harmless, no ports, not long-running)
-echo ">> smoke: $RT run --rm $TMP_TAG $SMOKE_ARG"
-"$RT" run --rm "$TMP_TAG" "$SMOKE_ARG" >/dev/null
-echo ">> smoke gate OK"
+# Note: Go flag-package binaries exit 2 on --help; declare it with --smoke-expect 2.
+echo ">> smoke: $RT run --rm $TMP_TAG $SMOKE_ARG (expect exit $SMOKE_EXPECT)"
+RC=0; "$RT" run --rm "$TMP_TAG" "$SMOKE_ARG" >/dev/null 2>&1 || RC=$?
+[ "$RC" = "$SMOKE_EXPECT" ] || { echo "ERROR: smoke gate failed: exit $RC, expected $SMOKE_EXPECT" >&2; exit 1; }
+echo ">> smoke gate OK (exit $RC)"
 
 # 6) immutability + publish tags
 if "$RT" image inspect "${IMG}:${MAIN_TAG}" >/dev/null 2>&1; then
@@ -84,6 +87,6 @@ echo "published: ${IMG}"
 printf '  tag: %s\n' "${TAGS[@]}"
 echo "  arch: ${GOT_ARCH}  size: $((SIZE/1024/1024))MB  runtime: ${RT}"
 echo "  revision: ${SHA}${DIRTY}"
-echo "  smoke: '${SMOKE_ARG}' exit 0"
+echo "  smoke: '${SMOKE_ARG}' exit ${SMOKE_EXPECT} (as declared)"
 [ -n "$DIRTY" ] && echo "  NOTE: built from a dirty worktree (tag carries -dirty)"
 echo "  (old versions piling up? inventory them with container-image-janitor — do not delete here)"
