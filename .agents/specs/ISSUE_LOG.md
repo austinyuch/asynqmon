@@ -6,6 +6,7 @@ holding surface:尚未歸屬 spec/CR 的改善項。不是第二份 SPECS.md,也
 
 | ID | 描述 | 來源 | 分類傾向 | 狀態 |
 |---|---|---|---|---|
+| — | (目前無 open items;新項目依 issue-log-manager 流程登錄) | | | |
 
 ## Resolved(追溯)
 
