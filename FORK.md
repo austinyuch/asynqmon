@@ -36,7 +36,7 @@ git config core.hooksPath githooks   # 啟用 pre-push govulncheck
 | Dependencies | gorilla/mux v1.8.1、rs/cors v1.11.1(DoS fix)、prometheus/client_golang v1.23.2、go-redis v9.20.0(經 asynq fork 傳遞) | security hardening / CVE 面收斂 |
 | Go toolchain | `go 1.16` → `go 1.25.0` + `toolchain go1.26.4`;CI 用 1.26.x | 跟上 supported releases,與 asynq fork 一致 |
 | `cmd/asynqmon/main_test.go` | sentinel URI 測試期望改為 `SentinelPassword`(原註解即標 FIXME) | asynq `c08f142`(v0.25+)修正 sentinel URI 解析行為 |
-| CI | 新增 `build.yml`(PR → main;Go 1.26.x;valkey/valkey:9.1.0 service);codeql / docker-publish 改 target `main`;docker image 改 `austinyuch/asynqmon`;release.yml 改 Go 1.26.x + Node 18(`NODE_OPTIONS=--openssl-legacy-provider`);actions 升級(codeql-action v1→v3 + `security-events: write`、checkout v4、setup-go v5、docker metadata/login/build-push 現行版,PR 不跑 DockerHub login) | 配合 branch model 與 fork 發佈通道;v1 codeql-action 已停服 |
+| CI | 新增 `build.yml`(PR → main;Go 1.26.x;valkey/valkey:9.1.0 service);codeql / docker-publish 改 target `main`;docker-publish 改 manual-only(遠端發佈暫緩,local podman 為 canonical——見 IL-R10);release.yml 改 Go 1.26.x + Node 18(`NODE_OPTIONS=--openssl-legacy-provider`);actions 升級(codeql-action v1→v3 + `security-events: write`、checkout v4、setup-go v5、docker metadata/login/build-push 現行版,PR 不跑 DockerHub login) | 配合 branch model 與 fork 發佈通道;v1 codeql-action 已停服 |
 | `Dockerfile` | backend stage `golang:1.18-alpine` → `golang:1.26-alpine` | go 1.25.0 module 需要新 toolchain |
 | Docs | README 的 import 範例 / docker image / godoc / releases 連結改 fork path;指向 upstream wiki、issues、license 的連結刻意保留 | 反映 fork 現況 |
 | UI runtime deps | axios 0.32.0(direct);resolutions:prismjs 1.30.0、decode-uri-component 0.2.2、d3-color 3.1.0、lodash 4.18.1、@babel/runtime(-corejs3) 7.29.7、@types/react(-dom) 18(path-to-regexp pin 已隨 router 6 移除);`ui/build/` 以修復後依賴重建 | SPEC-001/002 vuln 收斂(yarn audit 415 → 0) |
@@ -47,8 +47,7 @@ git config core.hooksPath githooks   # 啟用 pre-push govulncheck
 | 其他 | `FORK.md`、`.agents/skills/upstream-sync/`、`.agents/specs/` | 團隊維運工具 |
 
 已知未動(follow-up 候選):
-- UI 元件測試 / E2E(Playwright)基線——SPEC-003/004 的視覺/行為 smoke 目前 pending-manual
-- docker-image-publish 需要在 fork repo 設定 `DOCKER_USERNAME` / `DOCKER_PASSWORD` secrets 才會真的發佈
+- 遠端 image 發佈(DockerHub)暫緩中——需要時手動觸發 workflow 並補 secrets(IL-R10 記錄 re-open 條件)
 
 ## Sync log
 
