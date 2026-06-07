@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Asynqmon Fork — Executive Review</title>
+<style>
+:root{--ink:#1a2330;--mut:#5a6776;--pri:#2f5fd0;--ok:#0f7b4d;--warn:#9a6a00;--bad:#b3261e;--line:#e3e8ee;--bg:#f5f7f9}
+*{box-sizing:border-box}body{margin:0;font:16px/1.7 -apple-system,"Segoe UI",Roboto,"Noto Sans TC",sans-serif;color:var(--ink);background:var(--bg)}
+a{color:var(--pri)}.container{max-width:1080px;margin:0 auto;padding:0 28px}
+.hero{background:linear-gradient(135deg,#0a0e1a 0%,#13294b 70%,#1d3f74 100%);color:#fff;padding:64px 0 56px}
+.hero h1{font-size:34px;margin:0 0 8px}.hero p.tag{font-size:18px;color:#b9cdee;margin:0 0 30px}
+.stats{display:flex;gap:18px;flex-wrap:wrap}.stat{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-radius:14px;padding:18px 26px;min-width:200px}
+.stat b{display:block;font-size:32px;color:#7fd4a8}.stat span{font-size:13.5px;color:#c5d5ee}
+h2{font-size:25px;margin:46px 0 14px;border-bottom:2px solid var(--line);padding-bottom:8px}
+.card{background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:0 1px 4px rgba(16,33,60,.07);padding:20px 24px;margin:14px 0}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}@media(max-width:860px){.grid2{grid-template-columns:1fr}}
+.chip{display:inline-block;font-size:12px;padding:2px 10px;border-radius:999px;margin:2px 6px 2px 0;border:1px solid}
+.chip.src{color:#274b8f;border-color:#b9cdf2;background:#eef3fc}.chip.ok{color:var(--ok);border-color:#9ed4b8;background:#e8f6ee}
+.chip.na{color:var(--warn);border-color:#e4cd8e;background:#fbf2da}.chip.ref{color:#555;border-color:#ccc;background:#f4f4f4}
+.shot img{width:100%;border-radius:9px;border:1px solid var(--line);box-shadow:0 2px 10px rgba(16,33,60,.12)}
+.cap{font-size:13.5px;color:var(--mut);margin-top:7px}
+.pr{background:#fff;border-left:6px solid var(--pri);border-radius:10px;padding:22px 26px;font-size:15.5px}
+details{background:#fff;border:1px solid var(--line);border-radius:10px;margin:8px 0;padding:4px 18px}
+details summary{cursor:pointer;font-weight:600;padding:10px 0}
+table{border-collapse:collapse;width:100%;font-size:14.5px;margin:10px 0;background:#fff}th,td{border:1px solid var(--line);padding:8px 12px;text-align:left;vertical-align:top}th{background:#eef2f7}
+.sev-h{color:var(--bad);font-weight:700}.sev-m{color:var(--warn);font-weight:700}.sev-l{color:var(--mut);font-weight:600}
+.ok-t{color:var(--ok)}.warnbox{background:#fdf3dc;border:1px solid #ecd9a2;border-left:6px solid var(--warn);border-radius:10px;padding:13px 17px;font-size:14.5px;margin:12px 0}
+.mermaid{background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px;margin:14px 0}
+.timeline li{margin:8px 0}footer{color:var(--mut);font-size:13px;margin:46px 0 18px}
+code{background:#eef2f7;padding:1px 6px;border-radius:5px;font-size:.92em}
+</style>
+</head>
+<body>
+<div class="hero"><div class="container">
+<h1>Asynqmon — Team Fork 現代化與安全收斂</h1>
+<p class="tag">Asynq task queue 的監控 Web UI(<code>github.com/austinyuch/asynqmon</code>)— go:embed library-first,一行 <code>go get</code> 即得完整 UI</p>
+<div class="stats">
+<div class="stat"><b>415 → 0</b><span>npm 安全漏洞(58 critical 歸零;govulncheck 同步 0)</span></div>
+<div class="stat"><b>12 / 12</b><span>full-integration browser smoke(真實 Valkey + worker)</span></div>
+<div class="stat"><b>13.6s → 0.33s</b><span>UI 建置時間(CRA/webpack4 → Vite 8)</span></div>
+</div></div></div>
+<div class="container">
+
+<h2>價值主張</h2>
+<div class="grid2">
+<div class="card"><h3>對內(工程/維運管理者)</h3><ul>
+<li><b>安全債清零且可持續</b>:yarn audit 0、govulncheck 0,並由 pre-push hook + CI + 依賴治理(resolutions、team fork tags)守住。</li>
+<li><b>EOL 風險出清</b>:React 18.3 / MUI 5.18 / router 6.30 / TS 5.9 / Vite 8 全在現役支援線——不再有「升級也救不了」的依賴。</li>
+<li><b>可追溯治理</b>:4 份 SDD specs(requirements→design/FMEA→tasks→review)、RTM、ISSUE_LOG、TESTS 兩層、FORK divergence 表。</li></ul></div>
+<div class="card"><h3>對外(使用 fork 的團隊/下游)</h3><ul>
+<li><b>嵌入即用</b>:<code>asynqmon.New(Options)</code> 回傳 http.Handler,UI bundle 已 go:embed——無 node、無容器依賴。</li>
+<li><b>與 asynq fork 同源</b>:依賴 <code>austinyuch/asynq v0.26.0-team.1</code>,sentinel URI 等上游修正已內含。</li>
+<li><b>誠實的 readiness 邊界</b>:每個宣稱都對應 review.md 裁決與可重現證據(見下方 evidence chips)。</li></ul></div>
+</div>
+
+<h2>Press Release(Amazon backwards)</h2>
+<div class="pr">
+<b>團隊宣布推出 Asynqmon team fork:讓任何 Go 服務在一次 import 內獲得零已知漏洞的任務佇列監控台</b><br><br>
+2026 年 6 月 7 日 —— 在接手 upstream 三年未更新的 UI 鏈(415 個 npm 漏洞、58 critical、CRA 已停止維護)之後,團隊今天宣布完成全面現代化:安全漏洞歸零、建置快 40 倍、全 stack 落在現役支援線,並以 12/12 的真實瀏覽器整合驗證與 16 張 live 截圖手冊交付。<br><br>
+「我們不想再猜 dashboard 是哪個 commit 建的、也不想再向資安部門解釋 58 個 critical 為什麼動不了,」工程負責人表示。「現在每一顆 image 有 OCI 來歷標籤、每一次 push 有 govulncheck 攔檢、每一個功能宣稱後面都有一份 review.md。」<br><br>
+下游團隊即日起以 <code>go get github.com/austinyuch/asynqmon</code> 取得;standalone binary 與 container 模式同步可用。
+</div>
+
+<h2>FAQ</h2>
+<details><summary>內部管理者:維護成本與資安合規?</summary><p>維護面收斂為三條自動防線:pre-push govulncheck(Go)、CI build gate(PR→dev/main)、yarn audit 基線 0。upstream 同步有 repo-local skill pipeline(鏡像分支 + 衝突 hotspot 表 + rename 兜底 script),單人可執行。資安:415→0 的逐項證據在 <code>.agents/specs/001~002</code> reports,可審計。</p></details>
+<details><summary>內部管理者:這次投入換到什麼?</summary><p>(1)資安審查阻塞解除——critical 歸零且有持續 gate;(2)前端開發回路快 40 倍(0.33s build)、依賴可再升級;(3)治理資產(specs/RTM/手冊)讓後續變更與 onboarding 成本下降。</p></details>
+<details><summary>外部/下游:與直接用 upstream 差在哪?</summary><p>upstream UI 鏈停在 2022(CRA4/React16/MUI4,415 漏洞);本 fork 全數現代化並保持 API/URL 結構等價(12/12 smoke 驗證 deep-link 與操作流)。另含 sentinel URI 修正、arm64 容器修正、與 asynq team fork 的版本協同。</p></details>
+<details><summary>外部/下游:整合方式?</summary><p>三式:Go library 嵌入(主推,go:embed 零外部依賴)、standalone binary、container(<code>localhost/local/asynqmon</code> 本地發布規則或自建)。見使用手冊 Getting Started。</p></details>
+<details><summary>使用者:導入後改善什麼痛點?</summary><p>佇列救火可視化:8 種任務狀態逐 tab 檢視、失敗原因(Last Error)直接可讀、retry/archive/run 單筆與批次操作、live worker 與 cron entries 一目了然——本 review 與手冊的截圖即為真實 seeded 情境(非 mock)。</p></details>
+
+<h2>核心功能(live evidence)</h2>
+<p>Evidence 標準:<span class="chip src">Evidence: live_screenshot</span><span class="chip ok">Coverage: full-integration</span><span class="chip ok">Readiness: PASS</span><span class="chip ref">Source: .agents/specs/003,004/review.md</span>(個別不同時於卡片註明)</p>
+<div class="grid2">
+<div class="card shot"><img src="assets/screenshot-dashboard-overview-01-queues.png" alt="Dashboard"><div class="cap"><b>佇列總覽</b>:各狀態堆疊、7 日 processed/failed、paused 狀態(紅)與佇列操作。</div></div>
+<div class="card shot"><img src="assets/screenshot-queues-tasks-04-retry.png" alt="Retry tab"><div class="cap"><b>失敗診斷</b>:Retry tab 直接呈現最後錯誤、重試配額與下次重試時間;一鍵 Run/Archive。</div></div>
+<div class="card shot"><img src="assets/screenshot-servers-workers-01-live.png" alt="Servers"><div class="cap"><b>Worker 透視</b>:server 列展開即見正在執行的任務與 payload(live worker 實跑)。</div></div>
+<div class="card shot"><img src="assets/screenshot-dashboard-overview-02-dark.png" alt="Dark mode"><div class="cap"><b>Dark mode</b>:MUI 5 palette 全站切換。</div></div>
+</div>
+<div class="warnbox">⚠️ <b>Claim cap</b>:Metrics 頁(Prometheus 圖表)<span class="chip na">not_assessed</span><span class="chip na">DEMO_NOT_ASSESSED</span>——demo 未配置 Prometheus,僅驗證 graceful 空態(ISSUE_LOG IL-004)。本文件其他功能宣稱均以 full-integration 證據支撐。</div>
+
+<h2>UX Flow</h2>
+<div class="mermaid">
+flowchart LR
+    A["Dashboard"] -->|"點佇列"| B["Queue 詳情<br/>8 狀態 tabs"]
+    B -->|"點任務"| C["Task 詳情"]
+    B -->|"row/批次"| D["run / archive / delete"]
+    A --> E["Servers"]
+    A --> F["Schedulers"]
+    A --> G["Redis Info"]
+</div>
+
+<h2>Gap Analysis</h2>
+<div class="grid2">
+<div class="card"><h3 class="ok-t">✅ 已解(摘自 ISSUE_LOG resolved + specs)</h3><ul>
+<li>415 npm 漏洞 / 58 critical → 0(SPEC-001/002)</li>
+<li>EOL stack(CRA/React16/MUI4/router5/TS4.9)→ 全現役線(SPEC-002/003/004)</li>
+<li>幽靈依賴 pretty-bytes、types/runtime 錯位(IL-R01/R02)</li>
+<li>CodeQL v1 停服、docker-publish PR 必敗(IL-R03)</li>
+<li>arm64 容器寫死 amd64(IL-R04);本地 image 發布無規則(IL-R05)</li>
+<li>Servers/Schedulers/aggregating 全狀態 live 證據(IL-R06,本次)</li></ul></div>
+<div class="card"><h3>⏳ 待解(ISSUE_LOG open)</h3>
+<table><tr><th>項目</th><th>嚴重度</th></tr>
+<tr><td>IL-001 UI E2E 正式基線(smoke→suite+CI)</td><td class="sev-m">Medium</td></tr>
+<tr><td>IL-002 eslint 鏈重建</td><td class="sev-l">Low</td></tr>
+<tr><td>IL-003 DockerHub secrets(external-blocked,需 repo owner)</td><td class="sev-l">Low</td></tr>
+<tr><td>IL-004 Metrics 頁 Prometheus demo 與驗證</td><td class="sev-m">Medium</td></tr>
+</table></div>
+</div>
+
+<h2>Roadmap</h2>
+<div class="card"><ul class="timeline">
+<li><b>近期</b>:IL-001 E2E 基線 spec(複用 canonical demo + spec 檔)→ CI 接入;IL-004 Prometheus demo compose。</li>
+<li><b>常態</b>:upstream sync(skill pipeline,目前 0 behind);asynq fork 版本協同(`-team.N` tags)。</li>
+<li><b>視需求</b>:fork release tag(`v0.7.x-team.1`)、DockerHub 發佈(IL-003 解除後)。</li>
+</ul></div>
+
+<footer>生成:2026-06-07 · branch docs/manual-review-generation · 證據與再生:<a href="../REVIEW_GENERATION_GUIDE.md">REVIEW_GENERATION_GUIDE.md</a> · 姊妹文件:<a href="../manual/zh-tw/index.html">使用手冊</a></footer>
+</div>
+<script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";mermaid.initialize({startOnLoad:true,theme:"neutral"});</script>
+</body></html>

@@ -37,6 +37,7 @@
     "preview": "vite preview"
   },
   "devDependencies": {
+    "@playwright/test": "1.60.0",
     "@types/react-window": "^1.8.8",
     "@vitejs/plugin-react": "^6.0.2",
     "jsdom": "^29.1.1",
