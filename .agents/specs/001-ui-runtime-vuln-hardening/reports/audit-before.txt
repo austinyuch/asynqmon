@@ -1,0 +1,34 @@
+415 vulnerabilities found - Packages audited: 1934
+Severity: 16 Low | 147 Moderate | 194 High | 58 Critical
+Done in 22.26s.
+
+=== target package advisories (before) ===
+HIGH d3-color (<3.1.0 vulnerable) via recharts — d3-color vulnerable to ReDoS
+MODERATE prismjs (<1.25.0 vulnerable) via react-syntax-highlighter — prismjs Regular Expression Denial of Service vulnerability
+HIGH prismjs (<1.24.0 vulnerable) via react-syntax-highlighter — Regular Expression Denial of Service (ReDoS) in Prism
+HIGH prismjs (<1.27.0 vulnerable) via react-syntax-highlighter — Cross-site Scripting in Prism
+MODERATE prismjs (<1.30.0 vulnerable) via react-syntax-highlighter — PrismJS DOM Clobbering vulnerability
+HIGH decode-uri-component (<0.2.1 vulnerable) via @testing-library/jest-dom — decode-uri-component vulnerable to Denial of Service (DoS)
+MODERATE axios (<0.28.0 vulnerable) via axios — Axios Cross-Site Request Forgery Vulnerability
+HIGH axios (<0.30.0 vulnerable) via axios — axios Requests Vulnerable To Possible SSRF and Credential Leakage via Absolute URL
+MODERATE axios (<0.31.0 vulnerable) via axios — Axios has a NO_PROXY Hostname Normalization Bypass that Leads to SSRF
+MODERATE axios (<0.31.1 vulnerable) via axios — Axios: Authentication Bypass via Prototype Pollution Gadget in `validateStatus` Merge Strategy
+HIGH axios (<0.31.1 vulnerable) via axios — Axios: Incomplete Fix for CVE-2025-62718 — NO_PROXY Protection Bypassed via RFC 1122 Loopback Subnet (127.0.0.0/8) in Axios 1.15.0
+LOW axios (<0.31.1 vulnerable) via axios — Axios: Null Byte Injection via Reverse-Encoding in AxiosURLSearchParams
+MODERATE axios (<0.31.1 vulnerable) via axios — Axios: no_proxy bypass via IP alias allows SSRF
+MODERATE axios (<0.31.1 vulnerable) via axios — Axios: unbounded recursion in toFormData causes DoS via deeply nested request data
+MODERATE axios (<0.31.1 vulnerable) via axios — Axios' HTTP adapter-streamed uploads bypass maxBodyLength when maxRedirects: 0
+MODERATE axios (<0.31.1 vulnerable) via axios — Axios: HTTP adapter streamed responses bypass maxContentLength
+HIGH axios (<0.31.1 vulnerable) via axios — Axios: Prototype Pollution Gadgets - Response Tampering, Data Exfiltration, and Request Hijacking
+HIGH axios (<0.31.1 vulnerable) via axios — Axios: Header Injection via Prototype Pollution
+MODERATE axios (<0.31.1 vulnerable) via axios — Axios: XSRF Token Cross-Origin Leakage via Prototype Pollution Gadget in `withXSRFToken` Boolean Coercion
+HIGH axios (<0.30.3 vulnerable) via axios — Axios is Vulnerable to Denial of Service via __proto__ Key in mergeConfig
+MODERATE axios (<0.31.0 vulnerable) via axios — Axios has Unrestricted Cloud Metadata Exfiltration via Header Injection Chain
+HIGH axios (<0.32.0 vulnerable) via axios — axios's shouldBypassProxy does not recognize IPv4-mapped IPv6 addresses, allowing NO_PROXY bypass (incomplete fix for CVE-2025-62718)
+MODERATE axios (<0.32.0 vulnerable) via axios — axios has DoS & Header Injection via Prototype Pollution Read-Side Gadgets in axios merge functions
+HIGH axios (<0.31.1 vulnerable) via axios — axios Vulnerable to Credential Theft and Response Hijacking via Prototype Pollution Gadget in Config Merge
+HIGH axios (<0.32.0 vulnerable) via axios — Axios: Regular Expression Denial of Service (ReDoS) via Cookie Name Injection
+HIGH axios (<0.32.0 vulnerable) via axios — Axios: Proxy-Authorization Credential Leak to Origin Server Across HTTP-to-HTTPS Redirect in Axios Node.js HTTP Adapter
+HIGH axios (<0.32.0 vulnerable) via axios — Axios: Proxy-Authorization header leaks to redirect target when proxy is re-evaluated to direct connection
+HIGH decode-uri-component (<0.2.1 vulnerable) via query-string — decode-uri-component vulnerable to Denial of Service (DoS)
+HIGH path-to-regexp (<1.9.0 vulnerable) via react-router-dom — path-to-regexp outputs backtracking regular expressions
