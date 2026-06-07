@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+# pre-push: run govulncheck on the root module.
+# Enable with: git config core.hooksPath githooks
+set -euo pipefail
+
+repo_root="$(git rev-parse --show-toplevel)"
+
+# GUI/IDE git clients may not have GOPATH/bin on PATH.
+if ! command -v govulncheck >/dev/null 2>&1; then
+  PATH="$PATH:$(go env GOPATH)/bin"
+fi
+if ! command -v govulncheck >/dev/null 2>&1; then
+  echo "pre-push: govulncheck not found; install with:" >&2
+  echo "  go install golang.org/x/vuln/cmd/govulncheck@latest" >&2
+  exit 1
+fi
+
+echo "pre-push: govulncheck ./..."
+(cd "${repo_root}" && govulncheck ./...)
+
+echo "pre-push: govulncheck passed"

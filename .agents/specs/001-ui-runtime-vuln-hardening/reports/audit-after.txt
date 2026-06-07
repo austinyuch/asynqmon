@@ -1,0 +1,6 @@
+376 vulnerabilities found - Packages audited: 1934
+Severity: 15 Low | 129 Moderate | 174 High | 58 Critical
+Done in 1.63s.
+
+=== target package advisories (after) ===
+(none — all 5 target packages clean)

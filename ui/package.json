@@ -19,7 +19,7 @@
     "@types/react-router-dom": "5.3.1",
     "@types/react-syntax-highlighter": "13.5.2",
     "@types/recharts": "1.8.20",
-    "axios": "0.21.2",
+    "axios": "0.32.0",
     "clsx": "1.1.1",
     "dayjs": "1.10.7",
     "lodash.uniqby": "4.7.0",
@@ -58,6 +58,12 @@
   "devDependencies": {
     "@types/react-window": "1.8.5",
     "redux-devtools": "3.7.0"
+  },
+  "resolutions": {
+    "prismjs": "1.30.0",
+    "decode-uri-component": "0.2.2",
+    "**/react-router/path-to-regexp": "1.9.0",
+    "d3-color": "3.1.0"
   },
   "homepage": "/[[.RootPath]]"
 }

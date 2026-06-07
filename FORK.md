@@ -23,6 +23,7 @@ Agent 工作目錄採 `.agents/` 為 canonical source:`.claude/.kiro/.codex` 下
 
 ```bash
 for a in .claude .kiro .codex; do mkdir -p $a && ln -sfn ../.agents/skills $a/skills && ln -sfn ../.agents/specs $a/specs; done
+git config core.hooksPath githooks   # 啟用 pre-push govulncheck
 ```
 
 ## Intentional divergence from upstream
@@ -37,7 +38,9 @@ for a in .claude .kiro .codex; do mkdir -p $a && ln -sfn ../.agents/skills $a/sk
 | CI | 新增 `build.yml`(PR → main;Go 1.26.x;valkey/valkey:9.1.0 service);codeql / docker-publish 改 target `main`;docker image 改 `austinyuch/asynqmon`;release.yml 改 Go 1.26.x + Node 18(`NODE_OPTIONS=--openssl-legacy-provider`);actions 升級(codeql-action v1→v3 + `security-events: write`、checkout v4、setup-go v5、docker metadata/login/build-push 現行版,PR 不跑 DockerHub login) | 配合 branch model 與 fork 發佈通道;v1 codeql-action 已停服 |
 | `Dockerfile` | backend stage `golang:1.18-alpine` → `golang:1.26-alpine` | go 1.25.0 module 需要新 toolchain |
 | Docs | README 的 import 範例 / docker image / godoc / releases 連結改 fork path;指向 upstream wiki、issues、license 的連結刻意保留 | 反映 fork 現況 |
-| 其他 | `FORK.md`、`.agents/skills/upstream-sync/` | 團隊維運工具 |
+| UI runtime deps | axios 0.32.0(direct);resolutions:prismjs 1.30.0、decode-uri-component 0.2.2、`**/react-router/path-to-regexp` 1.9.0、d3-color 3.1.0;`ui/build/` 以修復後依賴重建 | SPEC-001 runtime vuln 收斂(`.agents/specs/001-ui-runtime-vuln-hardening/`) |
+| Git hooks | `githooks/pre-push` 跑 `govulncheck ./...`;啟用:`git config core.hooksPath githooks`(per-clone,不入版控) | 與 asynq fork 治理對齊 |
+| 其他 | `FORK.md`、`.agents/skills/upstream-sync/`、`.agents/specs/` | 團隊維運工具 |
 
 已知未動(follow-up 候選):
 - `Dockerfile` frontend stage 仍是 `alpine:3.17`(Node 18 EOL);UI 是 CRA/webpack4 + React 16,升 Node/依賴需要另開 spec 驗證 UI build
