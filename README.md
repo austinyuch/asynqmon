@@ -33,7 +33,7 @@ There're a few options to install the binary:
 
 ### Release binaries
 
-You can download the release binary for your system from the [releases page](https://github.com/hibiken/asynqmon/releases).
+You can download the release binary for your system from the [releases page](https://github.com/austinyuch/asynqmon/releases).
 
 ### Docker image
 
@@ -41,10 +41,10 @@ To pull the Docker image:
 
 ```bash
 # Pull the latest image
-docker pull hibiken/asynqmon
+docker pull austinyuch/asynqmon
 
 # Or specify the image by tag
-docker pull hibiken/asynqmon[:tag]
+docker pull austinyuch/asynqmon[:tag]
 ```
 
 ### Building from source
@@ -79,7 +79,7 @@ To use the defaults, simply run and open http://localhost:8080.
 docker run --rm \
     --name asynqmon \
     -p 8080:8080 \
-    hibiken/asynqmon
+    austinyuch/asynqmon
 ```
 
 By default, Asynqmon web server listens on port `8080` and connects to a Redis server running on `127.0.0.1:6379`.
@@ -91,7 +91,7 @@ To see all available flags, run:
 ./asynqmon --help
 
 # with a docker image
-docker run hibiken/asynqmon --help
+docker run austinyuch/asynqmon --help
 ```
 
 Here's the available flags:
@@ -165,14 +165,14 @@ The address can be specified via `--prometheus-addr`. This enables the metrics v
 docker run --rm \
     --name asynqmon \
     -p 3000:3000 \
-    hibiken/asynqmon --port=3000 --redis-addr=host.docker.internal:6380
+    austinyuch/asynqmon --port=3000 --redis-addr=host.docker.internal:6380
 
 # with Docker (connect to a Redis server running in the Docker container)
 docker run --rm \
     --name asynqmon \
     --network dev-network \
     -p 8080:8080 \
-    hibiken/asynqmon --redis-addr=dev-redis:6379
+    austinyuch/asynqmon --redis-addr=dev-redis:6379
 ```
 
 Next, go to [localhost:8080](http://localhost:8080) and see Asynqmon dashboard:
@@ -189,7 +189,7 @@ Next, go to [localhost:8080](http://localhost:8080) and see Asynqmon dashboard:
 
 ## Import as a Library
 
-[![GoDoc](https://godoc.org/github.com/hibiken/asynqmon?status.svg)](https://godoc.org/github.com/hibiken/asynqmon)
+[![GoDoc](https://godoc.org/github.com/austinyuch/asynqmon?status.svg)](https://godoc.org/github.com/austinyuch/asynqmon)
 
 Asynqmon is also a library which can be imported into an existing web application.
 
