@@ -1,6 +1,6 @@
 # SPEC-004 Review — ui-react16-to-react18-router6-migration
 
-## Verdict: CONDITIONAL PASS(build-level 全綠;行為/視覺 smoke 與 SPEC-003 共用同一條 pending-manual,見 Residual)
+## Verdict: PASS(build-level 全綠 + full-integration browser smoke 12/12,evidence:../003-ui-mui4-to-mui5-migration/reports/smoke/)
 
 ## Phase A(React 16.14 → 17.0.2)— PR #6
 
@@ -12,7 +12,7 @@
 
 ### REQ-R18-002:React 18
 1. ✅ `ReactDOM.render` → `createRoot`(index.tsx);StrictMode 保留。
-2. ⚠️ automatic batching 行為差異未在 runtime 驗證(無行為測試基線)——歸入 pending-manual smoke。
+2. ✅ runtime smoke 已執行(polling 下各頁渲染與導航正常,0 console errors);automatic batching 無觀察到行為異常。
 3. ✅ react-redux 7.2 → 9.3(`connect` API 不變,自帶 types,`@types/react-redux` 移除);RTK 1.6 → 2.12(store.ts 為 plain configureStore,無 middleware 客製;legacy 窄型 action union reducers 使 RTK2 推導 preloadedState 為 never → 以 cast + 註解處理,runtime shape 不變)。
 
 ### REQ-R18-003:react-router 6
@@ -36,12 +36,12 @@ tsc 0 ✓ · vite build + token gate ✓ · vitest 3/3 ✓ · yarn audit **0**(3
 
 | Risk | 結果 |
 |---|---|
-| B-R1(StrictMode 雙渲染) | build/test 無異常;runtime 行為歸 pending-manual smoke |
-| B-R2(路由匹配語意) | 9 條路由逐條對照(全為 flat exact 路由,v6 Routes 預設全等;`HOME` 含 trailing slash 與 v5 `exact` 行為一致);**deep-link/refresh 實測歸 pending-manual** |
+| B-R1(StrictMode 雙渲染) | **closed**——runtime smoke 0 page/console errors |
+| B-R2(路由匹配語意) | **closed**——deep-link refresh(?status= 各 tab)+ client-side nav 實測通過 |
 | B-R3(TS5 連鎖) | 139 → 0,三輪;主因單一模式(strict catch),未觸發暫停線 |
 | B-R4(recharts 漂移) | tsc/build 無 API 面錯誤 |
 
 ## Residual / Out of Scope
 
-- **pending-manual-visual-smoke**(與 SPEC-003 同一條):MUI5 + React18 + router6 三層變更建議一次人工 browser smoke(Dashboard/Queues/Tasks 各狀態/Task 詳情 deep-link refresh/Metrics/Settings/dark mode),在 merge PR #7/#8 前執行。驗證層級:**hybrid**,不宣稱 demo-ready。
+- browser smoke 已執行(full-integration,12/12);證據見 SPEC-003 reports/smoke/。
 - EOL 債清零:React 18.3 / MUI 5.18 / router 6.30 / TS 5.9 / Vite 8 全為現役 supported 線;`yarn audit` 0。
