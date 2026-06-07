@@ -16,6 +16,7 @@ description: 治理「本地發布 container image」的 build → verify → la
 | 起容器、port / network / instance 分配 | `local-infra-registry-governance`(本 skill 的 smoke 不映射 port、不長駐) |
 | compose / rootless 實作細節 | `devops-container-orchestration` |
 | 推送遠端 registry | 專案 CI workflow,不在本 skill 範圍 |
+| 發布後的 image 清單記錄 | **不記**——image store + OCI labels 即 SSOT,任何第二份帳本(含 local infra registry)都會漂移。唯一例外:registered project-instance 實際跑某顆本地 image 時,在該 instance 的 `resources` 記 image reference(那是 instance 組態,不是 image 盤點) |
 
 ## 命名與 tag 規則
 
