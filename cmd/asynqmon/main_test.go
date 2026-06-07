@@ -7,7 +7,7 @@ import (
 
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
-	"github.com/hibiken/asynq"
+	"github.com/austinyuch/asynq"
 )
 
 func TestParseFlags(t *testing.T) {
@@ -106,7 +106,9 @@ func TestMakeRedisConnOpt(t *testing.T) {
 				MasterName: "mymaster",
 				SentinelAddrs: []string{
 					"localhost:5000", "localhost:5001", "localhost:5002"},
-				Password: "secretpassword", // FIXME: Shouldn't this be SentinelPassword instead?
+				// asynq c08f142 (v0.25+) fixed sentinel URI parsing: the
+				// password now maps to SentinelPassword as it should.
+				SentinelPassword: "secretpassword",
 			},
 		},
 		{

@@ -202,8 +202,8 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/hibiken/asynq"
-	"github.com/hibiken/asynqmon"
+	"github.com/austinyuch/asynq"
+	"github.com/austinyuch/asynqmon"
 )
 
 func main() {
@@ -230,8 +230,8 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
-	"github.com/hibiken/asynq"
-	"github.com/hibiken/asynqmon"
+	"github.com/austinyuch/asynq"
+	"github.com/austinyuch/asynqmon"
 )
 
 func main() {
@@ -261,8 +261,8 @@ package main
 
 import (
 	"github.com/labstack/echo/v4"
-	"github.com/hibiken/asynq"
-	"github.com/hibiken/asynqmon"
+	"github.com/austinyuch/asynq"
+	"github.com/austinyuch/asynqmon"
 )
 
 func main() {
