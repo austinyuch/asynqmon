@@ -1,0 +1,101 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Asynqmon 使用手冊</title><style>
+:root{--bg:#f5f7f9;--card:#fff;--ink:#1a2330;--mut:#5a6776;--pri:#2f5fd0;--ok:#0f7b4d;--warn:#9a6a00;--line:#e3e8ee}
+*{box-sizing:border-box}body{margin:0;font:16px/1.65 -apple-system,"Segoe UI",Roboto,"Noto Sans TC",sans-serif;color:var(--ink);background:var(--bg)}
+a{color:var(--pri)}.wrap{display:flex;min-height:100vh}
+nav{width:260px;flex:none;background:#10213c;color:#dce6f5;padding:24px 18px;position:sticky;top:0;height:100vh;overflow:auto}
+nav h1{font-size:19px;margin:0 0 2px;color:#fff}nav .sub{font-size:12.5px;color:#9fb4d8;margin-bottom:14px}
+nav a{display:block;color:#c9d8ef;text-decoration:none;padding:7px 10px;border-radius:8px;font-size:14.5px}
+nav a:hover{background:#1d3457;color:#fff}nav .lang{margin-top:18px;border-top:1px solid #2a4470;padding-top:12px;font-size:13.5px}
+main{flex:1;max-width:980px;padding:34px 44px;margin:0 auto}
+.banner{background:#e8f3ec;border:1px solid #bfe0cd;border-left:6px solid var(--ok);border-radius:10px;padding:14px 18px;font-size:14.5px;margin-bottom:26px}
+.warnbox{background:#fdf3dc;border:1px solid #ecd9a2;border-left:6px solid var(--warn);border-radius:10px;padding:13px 17px;font-size:14.5px;margin:14px 0}
+h2{font-size:24px;margin:42px 0 10px;border-bottom:2px solid var(--line);padding-bottom:8px}
+h3{font-size:18px;margin:26px 0 8px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:0 1px 4px rgba(16,33,60,.07);padding:18px 20px;margin:16px 0}
+.shot{margin:18px 0}.shot img{width:100%;border-radius:8px;border:1px solid var(--line);box-shadow:0 2px 10px rgba(16,33,60,.12)}
+.cap{font-size:14px;color:var(--mut);margin-top:8px}
+.chips{margin-top:6px}.chip{display:inline-block;font-size:12px;padding:2px 10px;border-radius:999px;margin-right:6px;border:1px solid}
+.chip.src{color:#274b8f;border-color:#b9cdf2;background:#eef3fc}.chip.ok{color:var(--ok);border-color:#9ed4b8;background:#e8f6ee}
+.chip.na{color:var(--warn);border-color:#e4cd8e;background:#fbf2da}
+table{border-collapse:collapse;width:100%;font-size:14.5px;margin:12px 0}th,td{border:1px solid var(--line);padding:8px 11px;text-align:left}
+th{background:#eef2f7}code{background:#eef2f7;padding:1px 6px;border-radius:5px;font-size:.92em}
+pre{background:#10213c;color:#dbe7fb;padding:15px 18px;border-radius:10px;overflow:auto;font-size:13.5px;line-height:1.55}
+pre code{background:none;color:inherit;padding:0}
+.mermaid{background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px;margin:14px 0}
+footer{color:var(--mut);font-size:13px;margin:48px 0 10px}
+@media(max-width:900px){.wrap{flex-direction:column}nav{width:100%;height:auto;position:static}main{padding:22px 18px}}
+</style></head><body><div class="wrap">
+<nav><h1>Asynqmon 使用手冊</h1><div class="sub">Asynq task queue 監控 Web UI — team fork</div><a href="#start">快速開始</a><a href="#flow">操作動線</a><a href="#dashboard">Dashboard</a><a href="#states">任務狀態</a><a href="#detail">任務詳情</a><a href="#servers">Servers</a><a href="#schedulers">Schedulers</a><a href="#redis">Redis Info</a><a href="#settings">Settings</a><a href="#metrics">Metrics(gap)</a><a href="#flags">CLI flags</a>
+<div class="lang"><a href="../en/index.html">🌐 English version</a></div></nav>
+<main><div class="banner">本手冊所有截圖均為 <b>live evidence</b>:真實 Valkey 9.1 + 真實 asynq worker/scheduler + canonical demo 資料(<code>docs/manual/demo/main.go</code>)。Product-level readiness:<b>PASS</b>(來源:<code>.agents/specs/003-*/review.md</code>、<code>004-*/review.md</code> + 12/12 browser smoke)。再生方式見 <a href='../../MANUAL_GENERATION_GUIDE.md'>MANUAL_GENERATION_GUIDE.md</a>。</div>
+<section id="start"><h2>快速開始 / Starter Assets</h2>
+<div class="card"><pre><code># 1) standalone binary
+asynqmon --port=8080 --redis-addr=localhost:6379
+
+# 2) container
+podman run --rm -p 8080:8080 localhost/local/asynqmon --redis-addr=host.containers.internal:6379
+
+# 3) Go library embed (primary consumption mode; UI bundle is go:embed'ed)
+h := asynqmon.New(asynqmon.Options{
+    RootPath:     "/monitoring",
+    RedisConnOpt: asynq.RedisClientOpt{Addr: "localhost:6379"},
+})
+mux.Handle(h.RootPath()+"/", h)</code></pre>
+<p>Starter assets(git-tracked):
+<a href="../demo/main.go" download>demo/main.go</a> — 一鍵種出全部任務狀態 + live worker/scheduler;
+<a href="../../../ui/e2e/manual-screenshots.spec.ts" download>manual-screenshots.spec.ts</a> — 截圖/VRT spec.</p></div></section>
+
+<section id="flow"><h2>操作動線(UX Flow)</h2><div class="mermaid">
+flowchart LR
+    A["Dashboard"] -->|點佇列| B["Queue detail<br/>8 state tabs"]
+    B -->|點任務列| C["Task details"]
+    B -->|操作| D["run / archive / kill / delete"]
+    A --> E["Servers"]
+    A --> F["Schedulers"]
+    A --> G["Redis Info"]
+    A --> H["Settings"]
+</div></section>
+
+<section id="dashboard"><h2>Dashboard</h2>
+<figure class="shot"><img src="../assets/dashboard-overview-01-queues.png" alt="佇列堆疊長條(各狀態著色)、7 日 processed/failed 趨勢、佇列表。&lt;b&gt;low&lt;/b&gt; 佇列為紅色 &lt;b&gt;paused&lt;/b&gt;;Actions" loading="lazy"><figcaption class="cap">佇列堆疊長條(各狀態著色)、7 日 processed/failed 趨勢、佇列表。<b>low</b> 佇列為紅色 <b>paused</b>;Actions(⋯)可 pause/resume/delete。<div class="chips"><span class="chip src">Evidence: live screenshot · seeded demo</span><span class="chip ok">Coverage: full-integration</span><span class="chip ok">Readiness: PASS (review.md)</span></div></figcaption></figure>
+<figure class="shot"><img src="../assets/dashboard-overview-02-dark.png" alt="Dark mode(Settings → Dark Theme → Always)。" loading="lazy"><figcaption class="cap">Dark mode(Settings → Dark Theme → Always)。<div class="chips"><span class="chip src">Evidence: live screenshot · seeded demo</span><span class="chip ok">Coverage: full-integration</span><span class="chip ok">Readiness: PASS (review.md)</span></div></figcaption></figure></section>
+
+<section id="states"><h2>任務狀態(8 個 tabs)</h2>
+<div class="card"><table><tr><th>狀態</th><th>含意</th><th>demo 樣本</th></tr><tr><td><b>Active</b></td><td>worker 處理中</td><td><code>video:transcode</code></td></tr><tr><td><b>Pending</b></td><td>等待派工(demo:佇列 paused 故停留)</td><td><code>image:resize ×5</code></td></tr><tr><td><b>Aggregating</b></td><td>Group 聚合等待</td><td><code>metrics:event ×5</code></td></tr><tr><td><b>Scheduled</b></td><td>未到 ProcessIn 時間</td><td><code>report:generate ×5 (+2h)</code></td></tr><tr><td><b>Retry</b></td><td>失敗待重試</td><td><code>sync:export</code></td></tr><tr><td><b>Archived</b></td><td>重試耗盡/手動封存</td><td><code>billing:charge; image:resize ×2</code></td></tr><tr><td><b>Completed</b></td><td>成功且在 Retention 期內</td><td><code>email:* ×14</code></td></tr></table></div>
+<figure class="shot"><img src="../assets/queues-tasks-01-active.png" alt="Active tab:payload 與已執行時間;非 READ_ONLY 可 cancel。" loading="lazy"><figcaption class="cap">Active tab:payload 與已執行時間;非 READ_ONLY 可 cancel。<div class="chips"><span class="chip src">Evidence: live screenshot · seeded demo</span><span class="chip ok">Coverage: full-integration</span><span class="chip ok">Readiness: PASS (review.md)</span></div></figcaption></figure>
+<figure class="shot"><img src="../assets/queues-tasks-02-pending-paused.png" alt="Pending tab(佇列 paused):任務停留不派工。" loading="lazy"><figcaption class="cap">Pending tab(佇列 paused):任務停留不派工。<div class="chips"><span class="chip src">Evidence: live screenshot · seeded demo</span><span class="chip ok">Coverage: full-integration</span><span class="chip ok">Readiness: PASS (review.md)</span></div></figcaption></figure>
+<figure class="shot"><img src="../assets/queues-tasks-03-scheduled.png" alt="Scheduled tab:Process-In 倒數;Run now / Archive / Delete 單筆或批次。" loading="lazy"><figcaption class="cap">Scheduled tab:Process-In 倒數;Run now / Archive / Delete 單筆或批次。<div class="chips"><span class="chip src">Evidence: live screenshot · seeded demo</span><span class="chip ok">Coverage: full-integration</span><span class="chip ok">Readiness: PASS (review.md)</span></div></figcaption></figure>
+<figure class="shot"><img src="../assets/queues-tasks-04-retry.png" alt="Retry tab:最後錯誤、重試次數/上限、下次重試時間。" loading="lazy"><figcaption class="cap">Retry tab:最後錯誤、重試次數/上限、下次重試時間。<div class="chips"><span class="chip src">Evidence: live screenshot · seeded demo</span><span class="chip ok">Coverage: full-integration</span><span class="chip ok">Readiness: PASS (review.md)</span></div></figcaption></figure>
+<figure class="shot"><img src="../assets/queues-tasks-05-archived.png" alt="Archived tab:封存原因留在 Last Error;可 Run / Delete。" loading="lazy"><figcaption class="cap">Archived tab:封存原因留在 Last Error;可 Run / Delete。<div class="chips"><span class="chip src">Evidence: live screenshot · seeded demo</span><span class="chip ok">Coverage: full-integration</span><span class="chip ok">Readiness: PASS (review.md)</span></div></figcaption></figure>
+<figure class="shot"><img src="../assets/queues-tasks-06-completed.png" alt="Completed tab:Retention 期內的成功任務。" loading="lazy"><figcaption class="cap">Completed tab:Retention 期內的成功任務。<div class="chips"><span class="chip src">Evidence: live screenshot · seeded demo</span><span class="chip ok">Coverage: full-integration</span><span class="chip ok">Readiness: PASS (review.md)</span></div></figcaption></figure>
+<figure class="shot"><img src="../assets/queues-tasks-07-aggregating.png" alt="Aggregating tab:group 下拉切換群組;等待 GracePeriod/MaxSize。" loading="lazy"><figcaption class="cap">Aggregating tab:group 下拉切換群組;等待 GracePeriod/MaxSize。<div class="chips"><span class="chip src">Evidence: live screenshot · seeded demo</span><span class="chip ok">Coverage: full-integration</span><span class="chip ok">Readiness: PASS (review.md)</span></div></figcaption></figure></section>
+
+<section id="detail"><h2>任務詳情</h2>
+<figure class="shot"><img src="../assets/task-detail-01-retry-task.png" alt="完整 payload(JSON 高亮)、Retry 計數、Last Error、下次重試;麵包屑回佇列。" loading="lazy"><figcaption class="cap">完整 payload(JSON 高亮)、Retry 計數、Last Error、下次重試;麵包屑回佇列。<div class="chips"><span class="chip src">Evidence: live screenshot · seeded demo</span><span class="chip ok">Coverage: full-integration</span><span class="chip ok">Readiness: PASS (review.md)</span></div></figcaption></figure></section>
+
+<section id="servers"><h2>Servers</h2>
+<figure class="shot"><img src="../assets/servers-workers-01-live.png" alt="一列 = 一個 asynq server(host:PID、佇列權重)。展開可見 &lt;b&gt;Active Workers&lt;/b&gt;:live worker 真實在跑的" loading="lazy"><figcaption class="cap">一列 = 一個 asynq server(host:PID、佇列權重)。展開可見 <b>Active Workers</b>:live worker 真實在跑的 video:transcode 與 payload。<div class="chips"><span class="chip src">Evidence: live screenshot · seeded demo</span><span class="chip ok">Coverage: full-integration</span><span class="chip ok">Readiness: PASS (review.md)</span></div></figcaption></figure></section>
+
+<section id="schedulers"><h2>Schedulers</h2>
+<figure class="shot"><img src="../assets/schedulers-entries-01-list.png" alt="demo scheduler 的兩條 cron entries,含 next/prev enqueue 與歷史。" loading="lazy"><figcaption class="cap">demo scheduler 的兩條 cron entries,含 next/prev enqueue 與歷史。<div class="chips"><span class="chip src">Evidence: live screenshot · seeded demo</span><span class="chip ok">Coverage: full-integration</span><span class="chip ok">Readiness: PASS (review.md)</span></div></figcaption></figure></section>
+
+<section id="redis"><h2>Redis Info</h2>
+<figure class="shot"><img src="../assets/redis-info-01-stats.png" alt="連線中 Valkey/Redis 的 INFO 摘要。" loading="lazy"><figcaption class="cap">連線中 Valkey/Redis 的 INFO 摘要。<div class="chips"><span class="chip src">Evidence: live screenshot · seeded demo</span><span class="chip ok">Coverage: full-integration</span><span class="chip ok">Readiness: PASS (review.md)</span></div></figcaption></figure></section>
+
+<section id="settings"><h2>Settings</h2>
+<figure class="shot"><img src="../assets/settings-config-01-light.png" alt="輪詢間隔(預設 8s)與 Dark Theme 偏好。" loading="lazy"><figcaption class="cap">輪詢間隔(預設 8s)與 Dark Theme 偏好。<div class="chips"><span class="chip src">Evidence: live screenshot · seeded demo</span><span class="chip ok">Coverage: full-integration</span><span class="chip ok">Readiness: PASS (review.md)</span></div></figcaption></figure>
+<figure class="shot"><img src="../assets/settings-config-02-dark.png" alt="Dark mode 設定頁。" loading="lazy"><figcaption class="cap">Dark mode 設定頁。<div class="chips"><span class="chip src">Evidence: live screenshot · seeded demo</span><span class="chip ok">Coverage: full-integration</span><span class="chip ok">Readiness: PASS (review.md)</span></div></figcaption></figure></section>
+
+<section id="metrics"><h2>Metrics(已知 gap)</h2>
+<div class="warnbox">⚠️ 本頁需要 <code>--enable-metrics-exporter</code> + Prometheus;demo 未配置,截圖僅證明 graceful 空態渲染,不證明圖表功能。追蹤:ISSUE_LOG <b>IL-004</b>。</div>
+<figure class="shot"><img src="../assets/metrics-gap-01-no-prometheus.png" alt="Metrics 頁(無 Prometheus 的 graceful 空態)。" loading="lazy"><figcaption class="cap">Metrics 頁(無 Prometheus 的 graceful 空態)。<div class="chips"><span class="chip src">Evidence: live screenshot · graceful empty state</span><span class="chip na">Coverage: not_assessed</span><span class="chip na">Readiness: not_assessed</span><span class="chip na">DEMO_NOT_ASSESSED</span></div></figcaption></figure></section>
+
+<section id="flags"><h2>CLI flags</h2><div class="card"><table><tr><th>Flag / Env</th><th>說明</th></tr><tr><td><code>--port / PORT</code></td><td>監聽埠(預設 8080)</td></tr><tr><td><code>--redis-addr / REDIS_ADDR</code></td><td>Redis/Valkey 位址</td></tr><tr><td><code>--redis-url / REDIS_URL</code></td><td>redis:// 或 redis-sentinel:// URI</td></tr><tr><td><code>--redis-cluster-nodes</code></td><td>cluster 節點列表</td></tr><tr><td><code>--read-only</code></td><td>唯讀 UI(隱藏寫操作)</td></tr><tr><td><code>--enable-metrics-exporter + --prometheus-addr</code></td><td>啟用 Metrics 頁</td></tr></table>
+<p><code>asynqmon --help</code>(Go flag 慣例,exit code 2)</p></div></section>
+
+<footer>生成於 2026-06-07 · branch docs/manual-review-generation · 證據與再生:<a href="../../MANUAL_GENERATION_GUIDE.md">MANUAL_GENERATION_GUIDE.md</a></footer>
+</main></div>
+<script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";mermaid.initialize({startOnLoad:true,theme:"neutral"});</script>
+</body></html>
