@@ -4,7 +4,7 @@ name: build
 # CI 只在 PR → main 時做最後防線;單一 Go 版本、單一 job。
 on:
   pull_request:
-    branches: [main]
+    branches: [main, dev]
   workflow_dispatch:
 
 concurrency:

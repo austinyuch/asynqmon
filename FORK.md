@@ -7,7 +7,8 @@ Team-maintained fork of [hibiken/asynqmon](https://github.com/hibiken/asynqmon).
 
 | Branch | 角色 | 規則 |
 |---|---|---|
-| `main`(default) | 下游消費 + 團隊 PR 目標 | PR-merge only;never rebase / force-push |
+| `main`(default) | 下游消費(穩定線) | 只接受由 `dev` promote 的 PR;**merge 一律人工執行**;never rebase / force-push |
+| `dev` | 整合分支:spec / chore lane 的 PR 目標 | PR-merge only,**merge 一律人工執行**(agent 只開 PR,不 merge) |
 | `master` | upstream 純鏡像 | 只能 `--ff-only` from `upstream/master`;永不放團隊 commit |
 
 下游消費方式(module path 已改名):

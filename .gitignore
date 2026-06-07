@@ -44,3 +44,4 @@ examples/
 .kiro/specs
 .codex/specs
 # cross-agents symlink bridge: managed end
+.claude/scheduled_tasks.lock
