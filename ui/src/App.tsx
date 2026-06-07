@@ -39,8 +39,8 @@ import ServersView from "./views/ServersView";
 import RedisInfoView from "./views/RedisInfoView";
 import MetricsView from "./views/MetricsView";
 import PageNotFoundView from "./views/PageNotFoundView";
-import { ReactComponent as Logo } from "./images/logo-color.svg";
-import { ReactComponent as LogoDarkTheme } from "./images/logo-white.svg";
+import Logo from "./images/logo-color.svg?react";
+import LogoDarkTheme from "./images/logo-white.svg?react";
 
 const drawerWidth = 220;
 
