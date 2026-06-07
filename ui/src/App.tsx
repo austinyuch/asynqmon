@@ -1,6 +1,6 @@
 import React from "react";
 import { connect, ConnectedProps } from "react-redux";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Theme, ThemeProvider, StyledEngineProvider } from "@mui/material/styles";
 import { makeStyles } from 'tss-react/mui';
 import type { CSSObject } from 'tss-react';
@@ -278,35 +278,17 @@ function App(props: ConnectedProps<typeof connector>) {
               </Drawer>
               <main className={classes.content}>
                 <div className={classes.contentWrapper}>
-                  <Switch>
-                    <Route exact path={paths.TASK_DETAILS}>
-                      <TaskDetailsView />
-                    </Route>
-                    <Route exact path={paths.QUEUE_DETAILS}>
-                      <TasksView />
-                    </Route>
-                    <Route exact path={paths.SCHEDULERS}>
-                      <SchedulersView />
-                    </Route>
-                    <Route exact path={paths.SERVERS}>
-                      <ServersView />
-                    </Route>
-                    <Route exact path={paths.REDIS}>
-                      <RedisInfoView />
-                    </Route>
-                    <Route exact path={paths.SETTINGS}>
-                      <SettingsView />
-                    </Route>
-                    <Route exact path={paths.HOME}>
-                      <DashboardView />
-                    </Route>
-                    <Route exact path={paths.QUEUE_METRICS}>
-                      <MetricsView />
-                    </Route>
-                    <Route path="*">
-                      <PageNotFoundView />
-                    </Route>
-                  </Switch>
+                  <Routes>
+                    <Route path={paths.TASK_DETAILS} element={<TaskDetailsView />} />
+                    <Route path={paths.QUEUE_DETAILS} element={<TasksView />} />
+                    <Route path={paths.SCHEDULERS} element={<SchedulersView />} />
+                    <Route path={paths.SERVERS} element={<ServersView />} />
+                    <Route path={paths.REDIS} element={<RedisInfoView />} />
+                    <Route path={paths.SETTINGS} element={<SettingsView />} />
+                    <Route path={paths.HOME} element={<DashboardView />} />
+                    <Route path={paths.QUEUE_METRICS} element={<MetricsView />} />
+                    <Route path="*" element={<PageNotFoundView />} />
+                  </Routes>
                 </div>
               </main>
             </div>

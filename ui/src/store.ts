@@ -31,7 +31,9 @@ export type AppState = ReturnType<typeof rootReducer>;
 
 const store = configureStore({
   reducer: rootReducer,
-  preloadedState,
+  // Legacy hand-typed reducers use narrow action unions, which makes RTK 2
+  // infer the preloaded-state shape as `never` — the runtime shape is fine.
+  preloadedState: preloadedState as any,
 });
 
 export default store;
