@@ -4,5 +4,5 @@ derived snapshot;row-level authority 在各 folder-level `TESTS.md`。
 
 | Folder | Catalog | Rows | Spec Trace | Freshness |
 |---|---|---|---|---|
-| `ui/` | [ui/TESTS.md](../../ui/TESTS.md) | UI-BUILD-001 / UI-AUDIT-001 / UI-EMBED-001 | SPEC-001 | 2026-06-07(SPEC-001 closeout)|
+| `ui/` | [ui/TESTS.md](../../ui/TESTS.md) | UI-BUILD-001 / UI-AUDIT-001 / UI-EMBED-001 / UI-UNIT-001 / UI-TOKEN-001 | SPEC-001 / SPEC-002 | 2026-06-07(SPEC-002 closeout)|
 | root(Go) | —(無 folder-level TESTS.md;Go 測試由 CI build.yml + githooks/pre-push govulncheck 治理) | `go test -race ./...`、`govulncheck ./...` | PR #1 baseline / SPEC-001 T-5 | 2026-06-07 |

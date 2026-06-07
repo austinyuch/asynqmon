@@ -25,7 +25,7 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
-          node-version: "18"
+          node-version: "22"
 
       - name: Get release
         id: release
@@ -34,13 +34,9 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
 
       - name: Install NPM packages
-        run: cd ui && rm yarn.lock && yarn install
+        run: cd ui && yarn install --frozen-lockfile
 
       - name: Build Release Binary
-        # CRA/webpack4 needs the OpenSSL legacy provider on Node >= 17
-        # (same workaround as the Dockerfile frontend stage).
-        env:
-          NODE_OPTIONS: --openssl-legacy-provider
         run: |
           GOOS=${{ matrix.goos }} GOARCH=amd64 make build
           tar -czvf asynqmon_${{ steps.release.outputs.tag_name }}_${{ matrix.goos }}_amd64.tar.gz asynqmon
