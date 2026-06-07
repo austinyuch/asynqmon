@@ -18,6 +18,7 @@ import (
 	"log"
 	"os"
 	"os/signal"
+	"strings"
 	"syscall"
 	"time"
 
@@ -85,6 +86,15 @@ func main() {
 				log.Fatal(err)
 			}
 		}
+	}
+	// pause "low" and seed extra pending tasks: a paused queue keeps them
+	// visible on the Pending tab (canonical for manual + e2e assertions)
+	if err := insp.PauseQueue("low"); err != nil && !strings.Contains(err.Error(), "paused") {
+		log.Fatal(err)
+	}
+	for i := 0; i < 5; i++ {
+		must(client.Enqueue(asynq.NewTask("image:resize", []byte(fmt.Sprintf(`{"image": "gallery-%d.jpg", "width": 800}`, i))),
+			asynq.Queue("low"), asynq.MaxRetry(3)))
 	}
 
 	// real worker: weighted queues; handlers produce completed/retry/archived/active states

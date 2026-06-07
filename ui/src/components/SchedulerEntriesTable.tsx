@@ -119,7 +119,7 @@ function sortEntries(
   entries: SchedulerEntry[],
   cmpFn: (first: SchedulerEntry, second: SchedulerEntry) => number
 ): SchedulerEntry[] {
-  let copy = [...entries];
+  const copy = [...entries];
   copy.sort(cmpFn);
   return copy;
 }
@@ -134,7 +134,7 @@ export default function SchedulerEntriesTable(props: Props) {
   const [sortDir, setSortDir] = useState<SortDirection>(SortDirection.Asc);
   const [activeEntryId, setActiveEntryId] = useState<string>("");
 
-  const createSortClickHandler = (sortKey: SortBy) => (e: React.MouseEvent) => {
+  const createSortClickHandler = (sortKey: SortBy) => (_e: React.MouseEvent) => {
     if (sortKey === sortBy) {
       // Toggle sort direction.
       const nextSortDir =
@@ -180,7 +180,7 @@ export default function SchedulerEntriesTable(props: Props) {
         isE1Smaller = e1PrevEnqueueAt < e2PrevEnqueueAt;
         break;
       default:
-        // eslint-disable-next-line no-throw-literal
+         
         throw `Unexpected order by value: ${sortBy}`;
     }
     if (sortDir === SortDirection.Asc) {
@@ -254,7 +254,7 @@ interface RowProps {
   onShowHistoryClick: () => void;
 }
 
-const useRowStyles = makeStyles()((theme) => ({
+const useRowStyles = makeStyles()((_theme) => ({
   rowRoot: {
     "& > *": {
       borderBottom: "unset",

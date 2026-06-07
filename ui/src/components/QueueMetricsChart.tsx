@@ -33,9 +33,9 @@ function toChartData(metrics: Metrics[]): ChartData[] {
   if (metrics.length === 0) {
     return [];
   }
-  let byTimestamp: { [key: number]: ChartData } = {};
-  for (let x of metrics) {
-    for (let [ts, val] of x.values) {
+  const byTimestamp: { [key: number]: ChartData } = {};
+  for (const x of metrics) {
+    for (const [ts, val] of x.values) {
       if (!byTimestamp[ts]) {
         byTimestamp[ts] = { timestamp: ts };
       }

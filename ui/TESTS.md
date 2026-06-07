@@ -7,6 +7,8 @@
 | UI-EMBED-001 | Go embed of rebuilt bundle | `go build ./... && go test -race -count=1 ./...` | team | CI build.yml run on SPEC-001 PR | SPEC-001 T-4 | REQ-UIVULN-002 AC2 |
 
 | UI-UNIT-001 | Vitest unit(parseFlags fallback 行為) | `cd ui && yarn test` | team | SPEC-002 PR CI log | SPEC-002 T-6 | REQ-VITE-002 AC1 |
+| UI-E2E-001 | 功能性 browser smoke(7 案例,CI gate) | `cd ui && npx playwright test e2e/smoke.spec.ts`(需 demo env,CI 自帶) | team | build.yml e2e job | SPEC-005 Q-T1 | REQ-QG-001 |
+| UI-LINT-001 | eslint flat config(0 errors) | `cd ui && yarn lint` | team | build.yml lint step | SPEC-005 Q-T2 | REQ-QG-002 |
 | UI-TOKEN-001 | Go template token gate(post-build) | `cd ui && node scripts/verify-go-template-tokens.mjs` | team | build script 內建,SPEC-002 PR | SPEC-002 T-2/T-4 | REQ-VITE-001 AC2/3 |
 
 注:CRA boilerplate `App.test.tsx`(「learn react link」)已汰除——其斷言與實際 App 不符,現狀即失敗且從未在 CI 執行;E2E(real backend)仍為 SPEC-003/004 前置 stretch goal。

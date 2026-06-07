@@ -9,7 +9,6 @@ import QueueBreadCrumb from "../components/QueueBreadcrumb";
 import { useParams } from "react-router-dom";
 import { listQueuesAsync } from "../actions/queuesActions";
 import { AppState } from "../store";
-import { QueueDetailsRouteParams } from "../paths";
 import { useQuery } from "../hooks";
 
 function mapStateToProps(state: AppState) {

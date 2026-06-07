@@ -60,7 +60,7 @@ function makeChartData(
   const dataByDate: { [date: string]: ChartData } = {};
   for (const qname in queueStats) {
     for (const stat of queueStats[qname]) {
-      if (!dataByDate.hasOwnProperty(stat.date)) {
+      if (!Object.prototype.hasOwnProperty.call(dataByDate, stat.date)) {
         dataByDate[stat.date] = { succeeded: 0, failed: 0, date: stat.date };
       }
       dataByDate[stat.date].succeeded += stat.processed - stat.failed;
