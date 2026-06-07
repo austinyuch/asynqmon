@@ -4,6 +4,8 @@
 
 ## Overview
 
+> **Team fork notice** — this is the [austinyuch](https://github.com/austinyuch/asynqmon) team-maintained fork (module path `github.com/austinyuch/asynqmon`). Governance, branch model and divergence list: [FORK.md](./FORK.md) · agent knowledge base: [AGENTS.md](./AGENTS.md) · user manual: [docs/manual/](./docs/manual/) · executive review: [docs/review/](./docs/review/).
+
 Asynqmon is a web UI tool for monitoring and administering [Asynq](https://github.com/hibiken/asynq) queues and tasks.
 It supports integration with [Prometheus](https://prometheus.io) to display time-series data.
 
