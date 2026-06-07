@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { emphasize, Theme } from "@mui/material/styles";
 import { withStyles } from 'tss-react/mui';
 import Breadcrumbs from "@mui/material/Breadcrumbs";
@@ -38,7 +38,7 @@ interface Props {
 }
 
 export default function QueueBreadcrumbs(props: Props) {
-  const history = useHistory();
+  const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState<null | Element>(null);
   const paths = getPaths();
 
@@ -58,7 +58,7 @@ export default function QueueBreadcrumbs(props: Props) {
           component={Link}
           to={paths.HOME}
           label="Queues"
-          onClick={() => history.push(paths.HOME)}
+          onClick={() => navigate(paths.HOME)}
         />
         <StyledBreadcrumb
           label={props.queueName}
@@ -79,7 +79,7 @@ export default function QueueBreadcrumbs(props: Props) {
           <MenuItem
             key={qname}
             onClick={() => {
-              history.push(queueDetailsPath(qname));
+              navigate(queueDetailsPath(qname));
               closeMenu();
             }}
           >
