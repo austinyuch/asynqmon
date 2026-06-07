@@ -1,13 +1,11 @@
 name: Publish Docker image
+# Remote registry publishing is DEFERRED by decision (ISSUE_LOG IL-R10):
+# the canonical channel is local podman publishing via
+# .agents/skills/local-image-publish-governance/. Trigger manually when
+# DockerHub distribution is actually wanted (requires DOCKER_USERNAME /
+# DOCKER_PASSWORD secrets).
 on:
-  push:
-    branches:
-      - "main"
-    tags:
-      - "v*"
-  pull_request:
-    branches:
-      - "main"
+  workflow_dispatch:
 jobs:
   push_to_registry:
     name: Push Docker image to Docker Hub

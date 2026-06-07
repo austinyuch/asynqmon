@@ -43,10 +43,13 @@ To pull the Docker image:
 
 ```bash
 # Pull the latest image
-docker pull austinyuch/asynqmon
+# Fork images are published locally (podman) — remote registry is deferred.
+# Build your own:
+make docker            # or: podman build -t asynqmon .
+# Team-internal canonical local publish (provenance labels + gates):
+#   bash .agents/skills/local-image-publish-governance/scripts/publish_local_image.sh --name asynqmon --smoke-expect 2
 
 # Or specify the image by tag
-docker pull austinyuch/asynqmon[:tag]
 ```
 
 ### Building from source
