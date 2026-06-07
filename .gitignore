@@ -36,3 +36,11 @@ dist/
 
 # examples
 examples/
+# cross-agents symlink bridge: managed begin
+.claude/skills
+.kiro/skills
+.codex/skills
+.claude/specs
+.kiro/specs
+.codex/specs
+# cross-agents symlink bridge: managed end

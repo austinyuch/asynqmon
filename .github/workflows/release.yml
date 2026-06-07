@@ -13,19 +13,19 @@ jobs:
         goos: [darwin, linux, windows]
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
       - name: Set up Go
-        uses: actions/setup-go@v2
+        uses: actions/setup-go@v5
         with:
-          go-version: 1.16
+          go-version: 1.26.x
 
       - name: Set up Node
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
-          node-version: "12"
+          node-version: "18"
 
       - name: Get release
         id: release
@@ -37,6 +37,10 @@ jobs:
         run: cd ui && rm yarn.lock && yarn install
 
       - name: Build Release Binary
+        # CRA/webpack4 needs the OpenSSL legacy provider on Node >= 17
+        # (same workaround as the Dockerfile frontend stage).
+        env:
+          NODE_OPTIONS: --openssl-legacy-provider
         run: |
           GOOS=${{ matrix.goos }} GOARCH=amd64 make build
           tar -czvf asynqmon_${{ steps.release.outputs.tag_name }}_${{ matrix.goos }}_amd64.tar.gz asynqmon
