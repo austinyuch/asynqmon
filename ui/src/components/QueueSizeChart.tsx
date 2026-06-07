@@ -10,7 +10,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { useHistory } from "react-router-dom";
-import { useTheme } from "@material-ui/core/styles";
+import { useTheme } from "@mui/material/styles";
 import { queueDetailsPath } from "../paths";
 
 interface Props {

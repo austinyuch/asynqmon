@@ -1,12 +1,12 @@
-import Checkbox from "@material-ui/core/Checkbox";
-import IconButton from "@material-ui/core/IconButton";
-import TableCell from "@material-ui/core/TableCell";
-import TableRow from "@material-ui/core/TableRow";
-import Tooltip from "@material-ui/core/Tooltip";
-import DeleteIcon from "@material-ui/icons/Delete";
-import FileCopyOutlinedIcon from "@material-ui/icons/FileCopyOutlined";
-import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
-import PlayArrowIcon from "@material-ui/icons/PlayArrow";
+import Checkbox from "@mui/material/Checkbox";
+import IconButton from "@mui/material/IconButton";
+import TableCell from "@mui/material/TableCell";
+import TableRow from "@mui/material/TableRow";
+import Tooltip from "@mui/material/Tooltip";
+import DeleteIcon from "@mui/icons-material/Delete";
+import FileCopyOutlinedIcon from "@mui/icons-material/FileCopyOutlined";
+import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import React from "react";
 import { connect, ConnectedProps } from "react-redux";
 import { useHistory } from "react-router-dom";
@@ -70,7 +70,7 @@ const columns: TableColumn[] = [
 
 function Row(props: RowProps) {
   const { task } = props;
-  const classes = useRowStyles();
+  const { classes } = useRowStyles();
   const history = useHistory();
   return (
     <TableRow
@@ -81,7 +81,7 @@ function Row(props: RowProps) {
     >
       {!window.READ_ONLY && (
         <TableCell padding="checkbox" onClick={(e) => e.stopPropagation()}>
-          <IconButton>
+          <IconButton size="large">
             <Checkbox
               onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                 props.onSelectChange(event.target.checked)

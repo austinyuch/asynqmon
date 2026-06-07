@@ -9,7 +9,7 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
-import { useTheme, Theme } from "@material-ui/core/styles";
+import { useTheme, Theme } from "@mui/material/styles";
 
 interface Props {
   data: ProcessedStats[];

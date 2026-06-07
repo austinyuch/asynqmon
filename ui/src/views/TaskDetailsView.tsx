@@ -1,15 +1,15 @@
 import React, { useMemo, useEffect } from "react";
 import { connect, ConnectedProps } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { makeStyles } from "@material-ui/core/styles";
-import Container from "@material-ui/core/Container";
-import Grid from "@material-ui/core/Grid";
-import Paper from "@material-ui/core/Paper";
-import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
-import Alert from "@material-ui/lab/Alert";
-import AlertTitle from "@material-ui/lab/AlertTitle";
-import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+import { makeStyles } from 'tss-react/mui';
+import Container from "@mui/material/Container";
+import Grid from "@mui/material/Grid";
+import Paper from "@mui/material/Paper";
+import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useParams } from "react-router-dom";
 import QueueBreadCrumb from "../components/QueueBreadcrumb";
 import { AppState } from "../store";
@@ -35,7 +35,7 @@ const connector = connect(mapStateToProps, {
   listQueuesAsync,
 });
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles()((theme) => ({
   container: {
     paddingTop: theme.spacing(2),
   },
@@ -70,7 +70,7 @@ const useStyles = makeStyles((theme) => ({
 type Props = ConnectedProps<typeof connector>;
 
 function TaskDetailsView(props: Props) {
-  const classes = useStyles();
+  const { classes } = useStyles();
   const { qname, taskId } = useParams<TaskDetailsRouteParams>();
   const { getTaskInfoAsync, pollInterval, listQueuesAsync, taskInfo } = props;
   const history = useHistory();

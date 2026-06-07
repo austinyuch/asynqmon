@@ -1,6 +1,6 @@
-import { makeStyles } from "@material-ui/core/styles";
-import Alert from "@material-ui/lab/Alert";
-import AlertTitle from "@material-ui/lab/AlertTitle";
+import { makeStyles } from 'tss-react/mui';
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
 import React, { useCallback, useState } from "react";
 import { connect, ConnectedProps } from "react-redux";
 import { listGroupsAsync } from "../actions/groupsActions";
@@ -10,7 +10,7 @@ import { AppState } from "../store";
 import AggregatingTasksTable from "./AggregatingTasksTable";
 import GroupSelect from "./GroupSelect";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles()((theme) => ({
   groupSelector: {
     paddingTop: theme.spacing(1),
     paddingBottom: theme.spacing(1),
@@ -46,7 +46,7 @@ function AggregatingTasksTableContainer(
 ) {
   const [selectedGroup, setSelectedGroup] = useState<GroupInfo | null>(null);
   const { pollInterval, listGroupsAsync, queue } = props;
-  const classes = useStyles();
+  const { classes } = useStyles();
 
   const fetchGroups = useCallback(() => {
     listGroupsAsync(queue);

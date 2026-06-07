@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { connect, ConnectedProps } from "react-redux";
-import { makeStyles } from "@material-ui/core/styles";
-import Container from "@material-ui/core/Container";
-import Grid from "@material-ui/core/Grid";
+import { makeStyles } from 'tss-react/mui';
+import Container from "@mui/material/Container";
+import Grid from "@mui/material/Grid";
 import TasksTableContainer from "../components/TasksTableContainer";
 import QueueInfoBanner from "../components/QueueInfoBanner";
 import QueueBreadCrumb from "../components/QueueBreadcrumb";
@@ -20,7 +20,7 @@ function mapStateToProps(state: AppState) {
 
 const connector = connect(mapStateToProps, { listQueuesAsync });
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles()((theme) => ({
   container: {
     paddingTop: theme.spacing(2),
   },
@@ -47,7 +47,7 @@ const validStatus = [
 const defaultStatus = "active";
 
 function TasksView(props: ConnectedProps<typeof connector>) {
-  const classes = useStyles();
+  const { classes } = useStyles();
   const { qname } = useParams<QueueDetailsRouteParams>();
   const query = useQuery();
   let selected = query.get("status");

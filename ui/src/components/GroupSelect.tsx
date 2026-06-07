@@ -1,14 +1,15 @@
 import React from "react";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField";
-import Autocomplete from "@material-ui/lab/Autocomplete";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
-import ListSubheader from "@material-ui/core/ListSubheader";
+import { useTheme } from "@mui/material/styles";
+import { makeStyles } from 'tss-react/mui';
+import TextField from "@mui/material/TextField";
+import Autocomplete from '@mui/material/Autocomplete';
+import useMediaQuery from "@mui/material/useMediaQuery";
+import ListSubheader from "@mui/material/ListSubheader";
 import { VariableSizeList, ListChildComponentProps } from "react-window";
 import { GroupInfo } from "../api";
 import { isDarkTheme } from "../theme";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles()((theme) => ({
   groupSelectOption: {
     display: "flex",
     justifyContent: "space-between",
@@ -39,7 +40,7 @@ interface Props {
 }
 
 export default function GroupSelect(props: Props) {
-  const classes = useStyles();
+  const { classes } = useStyles();
   const [inputValue, setInputValue] = React.useState("");
 
   return (
@@ -62,11 +63,11 @@ export default function GroupSelect(props: Props) {
       options={props.groups}
       getOptionLabel={(option: GroupInfo) => option.group}
       style={{ width: 300 }}
-      renderOption={(option: GroupInfo) => (
-        <div className={classes.groupSelectOption}>
+      renderOption={(liProps, option: GroupInfo) => (
+        <li {...liProps} className={classes.groupSelectOption}>
           <span>{option.group}</span>
           <span className={classes.groupSize}>{option.size}</span>
-        </div>
+        </li>
       )}
       renderInput={(params) => (
         <TextField {...params} label="Select group" variant="outlined" />

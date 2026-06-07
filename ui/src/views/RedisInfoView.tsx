@@ -1,13 +1,13 @@
 import React from "react";
 import { connect, ConnectedProps } from "react-redux";
-import Container from "@material-ui/core/Container";
-import { makeStyles } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import Alert from "@material-ui/lab/Alert";
-import AlertTitle from "@material-ui/lab/AlertTitle";
+import Container from "@mui/material/Container";
+import { makeStyles } from 'tss-react/mui';
+import Grid from "@mui/material/Grid";
+import Typography from "@mui/material/Typography";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
 import SyntaxHighlighter from "../components/SyntaxHighlighter";
 import { getRedisInfoAsync } from "../actions/redisInfoActions";
 import { usePolling } from "../hooks";
@@ -15,9 +15,9 @@ import { AppState } from "../store";
 import { timeAgoUnix } from "../utils";
 import { RedisInfo } from "../api";
 import QueueLocationTable from "../components/QueueLocationTable";
-import Link from "@material-ui/core/Link";
+import Link from "@mui/material/Link";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles()((theme) => ({
   container: {
     paddingTop: theme.spacing(4),
     paddingBottom: theme.spacing(4),
@@ -43,7 +43,7 @@ const connector = connect(mapStateToProps, { getRedisInfoAsync });
 type Props = ConnectedProps<typeof connector>;
 
 function RedisInfoView(props: Props) {
-  const classes = useStyles();
+  const { classes } = useStyles();
   const {
     pollInterval,
     getRedisInfoAsync,

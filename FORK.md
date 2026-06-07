@@ -39,12 +39,13 @@ git config core.hooksPath githooks   # 啟用 pre-push govulncheck
 | `Dockerfile` | backend stage `golang:1.18-alpine` → `golang:1.26-alpine` | go 1.25.0 module 需要新 toolchain |
 | Docs | README 的 import 範例 / docker image / godoc / releases 連結改 fork path;指向 upstream wiki、issues、license 的連結刻意保留 | 反映 fork 現況 |
 | UI runtime deps | axios 0.32.0(direct);resolutions:prismjs 1.30.0、decode-uri-component 0.2.2、`**/react-router/path-to-regexp` 1.9.0、d3-color 3.1.0、lodash 4.18.1、@babel/runtime(-corejs3) 7.29.7;`ui/build/` 以修復後依賴重建 | SPEC-001/002 vuln 收斂(yarn audit 415 → 0) |
+| UI frameworks | React 16.14 → **17.0.2**(SPEC-004A);@material-ui v4 → **@mui v5** + emotion + tss-react(SPEC-003;`@mui/styles` 刻意不用,保 React 18 路徑);redux-devtools devDep 移除(未使用) | EOL majors 收斂 |
 | UI build toolchain | CRA/react-scripts → **Vite 8** + vite-plugin-svgr + Vitest;`pretty-bytes` 補為直接依賴(原為幽靈依賴);`index.html` 移至 ui/ 根、Go template token 由 `goTemplateBaseGuard` plugin + post-build gate 保護;Dockerfile frontend `alpine:3.17`→`node:22-alpine`(移除 openssl-legacy hack);Makefile/release.yml 同步 | SPEC-002:CRA 已 EOL,build 鏈 58 critical 無修復出路(`.agents/specs/002-ui-build-migration-cra-to-vite/`) |
 | Git hooks | `githooks/pre-push` 跑 `govulncheck ./...`;啟用:`git config core.hooksPath githooks`(per-clone,不入版控) | 與 asynq fork 治理對齊 |
 | 其他 | `FORK.md`、`.agents/skills/upstream-sync/`、`.agents/specs/` | 團隊維運工具 |
 
 已知未動(follow-up 候選):
-- React 16 / MUI v4 / react-router 5 仍為 EOL major(SPEC-003/004,specs 已 authored)
+- React 17 → 18、react-router 5 → 6、TS 5(SPEC-004 Phase B,最後一塊 EOL 債)
 - docker-image-publish 需要在 fork repo 設定 `DOCKER_USERNAME` / `DOCKER_PASSWORD` secrets 才會真的發佈
 
 ## Sync log
