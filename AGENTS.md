@@ -40,7 +40,8 @@ asynqmon/
 ```bash
 go build ./... && go vet ./... && go test -race -count=1 ./...
 cd ui && yarn install --frozen-lockfile && yarn build   # tsc + vite + token gate
-cd ui && yarn test
+cd ui && yarn test && yarn lint
+cd ui && npx playwright test e2e/smoke.spec.ts   # 需 demo env(見 docs/MANUAL_GENERATION_GUIDE.md);CI 自帶
 make build        # UI assets + binary
 make docker       # podman/docker 自動偵測
 bash .agents/skills/local-image-publish-governance/scripts/publish_local_image.sh \
@@ -53,7 +54,7 @@ bash .agents/skills/local-image-publish-governance/scripts/publish_local_image.s
 | 文件 | 用途 |
 |---|---|
 | `FORK.md` | branch model、divergence 清單、sync log |
-| `.agents/specs/SPECS.md` | spec registry(SPEC-001~004,全 Completed) |
+| `.agents/specs/SPECS.md` | spec registry(SPEC-001~005,全 Completed) |
 | `.agents/specs/NEXT_STEPS.md` | rolling operational memo / 唯一權威 handoff path |
 | `.agents/specs/ISSUE_LOG.md` | 未歸屬問題 + resolved 追溯 |
 | `.agents/specs/RTM.md` | 需求 → spec → 驗證證據 矩陣 |
@@ -68,5 +69,6 @@ bash .agents/skills/local-image-publish-governance/scripts/publish_local_image.s
 
 ## NOTES
 - 安全基線:yarn audit **0**、govulncheck **0**(pre-push gate);UI stack 全在現役 supported 線(React 18.3 / MUI 5.18 / router 6.30 / TS 5.9 / Vite 8)。
-- Metrics 頁需要 `--enable-metrics-exporter` + Prometheus;本地 demo 未配 Prometheus 時該頁為 graceful 空態。
+- 容器發佈:**local podman 為 canonical**(遠端 DockerHub 暫緩,IL-R10);docker-image-publish workflow 為手動觸發。
+- Metrics 頁需要 `--enable-metrics-exporter` + Prometheus;exporter 佔用 server 的 `/metrics` 路徑,**UI 的 Metrics 視圖在 `/q/metrics`**(側欄進入)。
 - asynq 依賴指向 team fork(`austinyuch/asynq v0.26.0-team.1`);upstream bump 時先回 asynq fork 做 sync + tag。

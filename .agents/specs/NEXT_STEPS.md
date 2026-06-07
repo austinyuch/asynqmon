@@ -1,7 +1,7 @@
 # NEXT_STEPS (rolling operational memo)
 
-- **Classification**: SPEC-001~004 Completed;現行 lane = docs/manual-review-generation(manual + review 文件生成)
-- **Active spec**: 無;active lane = docs generation(非 spec,文件工作)
+- **Classification**: SPEC-001~005 全 Completed;無 active lane
+- **Active spec / lane**: 無
 - **Current phase**: PR #4~#6 已 merge;smoke 12/12 完成;#7/#8 待 merge 後 promote dev → main
 - **Next action**: merge SPEC-002 PR → SPEC-004 Phase A(React 16→17)design/tasks/實作 → SPEC-003(MUI5)→ SPEC-004 Phase B
 - **Follow-up**: 移交 [ISSUE_LOG.md](./ISSUE_LOG.md)(IL-001 E2E 基線、IL-002 eslint、IL-003 DockerHub secrets、IL-004 Prometheus demo)
