@@ -1070,7 +1070,7 @@ export async function getMetrics(
   duration: number,
   queues: string[]
 ): Promise<MetricsResponse> {
-  let params: MetricsEndpointParams = {
+  const params: MetricsEndpointParams = {
     endtime: endTime,
     duration: duration,
   };

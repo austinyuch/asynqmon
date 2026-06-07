@@ -122,10 +122,17 @@ flowchart LR
 
 ![Settings dark](../assets/settings-config-02-dark.png)
 
-## Metrics (known gap)
+## Metrics
+
+Enable with `--enable-metrics-exporter --prometheus-addr=<prom>`; the exporter owns `/metrics` on the server port — **the UI Metrics view lives at `/q/metrics`** (via the sidebar).
+
+![Metrics live](../assets/metrics-live-01-charts.png)
+*Real charts (Prometheus 5s scrape + real demo-worker traffic): Tasks Processed / Failed / Error Rate. Full-integration evidence as of SPEC-005 (IL-004 resolved).*
+
+![Metrics more](../assets/metrics-live-02-charts-more.png)
 
 ![Metrics gap](../assets/metrics-gap-01-no-prometheus.png)
-*⚠️ **Evidence Source** = live screenshot (graceful empty state) · **Coverage Tier** = `not_assessed` · **Readiness State** = `not_assessed` · Code: `DEMO_NOT_ASSESSED` (ISSUE_LOG IL-004). This page requires the server to run with `--enable-metrics-exporter` and a Prometheus at `--prometheus-addr`; the demo has no Prometheus, so this only proves graceful rendering — not the charting feature.*
+*Contrast: graceful empty state when no Prometheus is configured.*
 
 ## CLI flags quick reference (server deployment)
 

@@ -27,6 +27,7 @@ function mapStateToProps(state: AppState) {
   return { pollInterval: state.settings.pollInterval };
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars -- used as a type via ConnectedProps
 const connector = connect(mapStateToProps);
 type ReduxProps = ConnectedProps<typeof connector>;
 
@@ -298,7 +299,7 @@ function MetricsFetchControls(props: Props) {
           customDurationError: "",
         }));
         props.onDurationChange(d, state.endTimeOption !== "real_time");
-      } catch (error) {
+      } catch {
         setState((prevState) => ({
           ...prevState,
           customDurationError: "Duration invalid",

@@ -122,7 +122,7 @@ export default function TasksTable(props: Props) {
     return () => action(queue, taskId);
   }
 
-  let allActions = [];
+  const allActions = [];
   if (props.deleteAllTasks) {
     allActions.push({
       label: "Delete All",
@@ -152,7 +152,7 @@ export default function TasksTable(props: Props) {
     });
   }
 
-  let batchActions = [];
+  const batchActions = [];
   if (props.batchDeleteTasks) {
     batchActions.push({
       tooltip: "Delete",

@@ -45,7 +45,7 @@ export default function queueStatsReducer(
 
     case LIST_QUEUES_SUCCESS: {
       // Copy to avoid mutation.
-      let newData = { ...state.data };
+      const newData = { ...state.data };
       // Update today's stats with most up-to-date data.
       for (const q of action.payload.queues) {
         const stats = newData[q.queue];

@@ -40,4 +40,5 @@ manual assets 過期時,先依 manual guide 再生,再執行上述複製——**
 
 ## Gap 狀態(隨每次再生更新)
 
-- 2026-06-07(首次生成,基線):4 張 live 截圖、claim 全數對應 authority;Metrics 維持 not_assessed(IL-004)。
+- 2026-06-07(SPEC-005):Metrics claim cap 解除(IL-004 resolved,full-integration);Gap 表僅剩 IL-003(external-blocked)。
+- 2026-06-07(首次生成,基線):4 張 live 截圖、claim 全數對應 authority;Metrics 當時 not_assessed(IL-004)。

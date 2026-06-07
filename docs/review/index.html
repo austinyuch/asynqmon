@@ -76,7 +76,7 @@ code{background:#eef2f7;padding:1px 6px;border-radius:5px;font-size:.92em}
 <div class="card shot"><img src="assets/screenshot-servers-workers-01-live.png" alt="Servers"><div class="cap"><b>Worker 透視</b>:server 列展開即見正在執行的任務與 payload(live worker 實跑)。</div></div>
 <div class="card shot"><img src="assets/screenshot-dashboard-overview-02-dark.png" alt="Dark mode"><div class="cap"><b>Dark mode</b>:MUI 5 palette 全站切換。</div></div>
 </div>
-<div class="warnbox">⚠️ <b>Claim cap</b>:Metrics 頁(Prometheus 圖表)<span class="chip na">not_assessed</span><span class="chip na">DEMO_NOT_ASSESSED</span>——demo 未配置 Prometheus,僅驗證 graceful 空態(ISSUE_LOG IL-004)。本文件其他功能宣稱均以 full-integration 證據支撐。</div>
+<div class="card"><b>Metrics(SPEC-005 起 full-integration)</b>:Prometheus + exporter 真實圖表已驗(證據:manual `metrics-live-01/02`);本文件全部功能宣稱均以 full-integration 證據支撐。</div>
 
 <h2>UX Flow</h2>
 <div class="mermaid">
@@ -97,19 +97,17 @@ flowchart LR
 <li>幽靈依賴 pretty-bytes、types/runtime 錯位(IL-R01/R02)</li>
 <li>CodeQL v1 停服、docker-publish PR 必敗(IL-R03)</li>
 <li>arm64 容器寫死 amd64(IL-R04);本地 image 發布無規則(IL-R05)</li>
-<li>Servers/Schedulers/aggregating 全狀態 live 證據(IL-R06,本次)</li></ul></div>
+<li>Servers/Schedulers/aggregating 全狀態 live 證據(IL-R06)</li>
+<li>E2E CI gate + eslint 鏈 + Metrics 真實圖表驗證(IL-R07~R09,SPEC-005)</li></ul></div>
 <div class="card"><h3>⏳ 待解(ISSUE_LOG open)</h3>
 <table><tr><th>項目</th><th>嚴重度</th></tr>
-<tr><td>IL-001 UI E2E 正式基線(smoke→suite+CI)</td><td class="sev-m">Medium</td></tr>
-<tr><td>IL-002 eslint 鏈重建</td><td class="sev-l">Low</td></tr>
 <tr><td>IL-003 DockerHub secrets(external-blocked,需 repo owner)</td><td class="sev-l">Low</td></tr>
-<tr><td>IL-004 Metrics 頁 Prometheus demo 與驗證</td><td class="sev-m">Medium</td></tr>
 </table></div>
 </div>
 
 <h2>Roadmap</h2>
 <div class="card"><ul class="timeline">
-<li><b>近期</b>:IL-001 E2E 基線 spec(複用 canonical demo + spec 檔)→ CI 接入;IL-004 Prometheus demo compose。</li>
+<li><b>近期</b>:已完成(SPEC-005:E2E CI gate、eslint、Metrics 驗證)。</li>
 <li><b>常態</b>:upstream sync(skill pipeline,目前 0 behind);asynq fork 版本協同(`-team.N` tags)。</li>
 <li><b>視需求</b>:fork release tag(`v0.7.x-team.1`)、DockerHub 發佈(IL-003 解除後)。</li>
 </ul></div>
