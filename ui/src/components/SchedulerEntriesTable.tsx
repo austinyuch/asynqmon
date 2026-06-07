@@ -1,27 +1,26 @@
 import React, { useState } from "react";
-import clsx from "clsx";
-import { makeStyles } from "@material-ui/core/styles";
-import IconButton from "@material-ui/core/IconButton";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import Modal from "@material-ui/core/Modal";
-import Typography from "@material-ui/core/Typography";
-import Tooltip from "@material-ui/core/Tooltip";
-import HistoryIcon from "@material-ui/icons/History";
-import Alert from "@material-ui/lab/Alert";
-import AlertTitle from "@material-ui/lab/AlertTitle";
+import { makeStyles } from 'tss-react/mui';
+import IconButton from "@mui/material/IconButton";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Modal from "@mui/material/Modal";
+import Typography from "@mui/material/Typography";
+import Tooltip from "@mui/material/Tooltip";
+import HistoryIcon from "@mui/icons-material/History";
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
 import { SortDirection, SortableTableColumn } from "../types/table";
-import TableSortLabel from "@material-ui/core/TableSortLabel";
+import TableSortLabel from "@mui/material/TableSortLabel";
 import SyntaxHighlighter from "./SyntaxHighlighter";
 import { SchedulerEntry } from "../api";
 import { timeAgo, durationBefore, prettifyPayload } from "../utils";
 import SchedulerEnqueueEventsTable from "./SchedulerEnqueueEventsTable";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles()((theme) => ({
   table: {
     minWidth: 650,
   },
@@ -130,7 +129,7 @@ interface Props {
 }
 
 export default function SchedulerEntriesTable(props: Props) {
-  const classes = useStyles();
+  const { classes, cx } = useStyles();
   const [sortBy, setSortBy] = useState<SortBy>(SortBy.EntryId);
   const [sortDir, setSortDir] = useState<SortDirection>(SortDirection.Asc);
   const [activeEntryId, setActiveEntryId] = useState<string>("");
@@ -200,55 +199,53 @@ export default function SchedulerEntriesTable(props: Props) {
     );
   }
 
-  return (
-    <>
-      <TableContainer>
-        <Table className={classes.table} aria-label="scheduler entries table">
-          <TableHead>
-            <TableRow>
-              {colConfigs.map((cfg, i) => (
-                <TableCell
-                  key={cfg.key}
-                  align={cfg.align}
-                  className={clsx(i === 0 && classes.fixedCell)}
+  return <>
+    <TableContainer>
+      <Table className={classes.table} aria-label="scheduler entries table">
+        <TableHead>
+          <TableRow>
+            {colConfigs.map((cfg, i) => (
+              <TableCell
+                key={cfg.key}
+                align={cfg.align}
+                className={cx(i === 0 && classes.fixedCell)}
+              >
+                <TableSortLabel
+                  active={cfg.sortBy === sortBy}
+                  direction={sortDir}
+                  onClick={createSortClickHandler(cfg.sortBy)}
                 >
-                  <TableSortLabel
-                    active={cfg.sortBy === sortBy}
-                    direction={sortDir}
-                    onClick={createSortClickHandler(cfg.sortBy)}
-                  >
-                    {cfg.label}
-                  </TableSortLabel>
-                </TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {sortEntries(props.entries, cmpFunc).map((entry, idx) => (
-              <Row
-                key={entry.id}
-                entry={entry}
-                isLastRow={idx === props.entries.length - 1}
-                onShowHistoryClick={() => setActiveEntryId(entry.id)}
-              />
+                  {cfg.label}
+                </TableSortLabel>
+              </TableCell>
             ))}
-          </TableBody>
-        </Table>
-        <Modal
-          open={activeEntryId !== ""}
-          onClose={() => setActiveEntryId("")}
-          className={classes.modal}
-        >
-          <div className={classes.modalContent}>
-            <Typography variant="h6" gutterBottom color="textPrimary">
-              Recent History
-            </Typography>
-            <SchedulerEnqueueEventsTable entryId={activeEntryId} />
-          </div>
-        </Modal>
-      </TableContainer>
-    </>
-  );
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {sortEntries(props.entries, cmpFunc).map((entry, idx) => (
+            <Row
+              key={entry.id}
+              entry={entry}
+              isLastRow={idx === props.entries.length - 1}
+              onShowHistoryClick={() => setActiveEntryId(entry.id)}
+            />
+          ))}
+        </TableBody>
+      </Table>
+      <Modal
+        open={activeEntryId !== ""}
+        onClose={() => setActiveEntryId("")}
+        className={classes.modal}
+      >
+        <div className={classes.modalContent}>
+          <Typography variant="h6" gutterBottom color="textPrimary">
+            Recent History
+          </Typography>
+          <SchedulerEnqueueEventsTable entryId={activeEntryId} />
+        </div>
+      </Modal>
+    </TableContainer>
+  </>;
 }
 
 interface RowProps {
@@ -257,7 +254,7 @@ interface RowProps {
   onShowHistoryClick: () => void;
 }
 
-const useRowStyles = makeStyles((theme) => ({
+const useRowStyles = makeStyles()((theme) => ({
   rowRoot: {
     "& > *": {
       borderBottom: "unset",
@@ -270,36 +267,36 @@ const useRowStyles = makeStyles((theme) => ({
 
 function Row(props: RowProps) {
   const { entry, isLastRow } = props;
-  const classes = useRowStyles();
+  const { classes, cx } = useRowStyles();
   return (
     <TableRow className={classes.rowRoot}>
       <TableCell
         component="th"
         scope="row"
-        className={clsx(isLastRow && classes.noBorder)}
+        className={cx(isLastRow && classes.noBorder)}
       >
         {entry.id}
       </TableCell>
-      <TableCell className={clsx(isLastRow && classes.noBorder)}>
+      <TableCell className={cx(isLastRow && classes.noBorder)}>
         {entry.spec}
       </TableCell>
-      <TableCell className={clsx(isLastRow && classes.noBorder)}>
+      <TableCell className={cx(isLastRow && classes.noBorder)}>
         {entry.task_type}
       </TableCell>
-      <TableCell className={clsx(isLastRow && classes.noBorder)}>
+      <TableCell className={cx(isLastRow && classes.noBorder)}>
         <SyntaxHighlighter language="json">
           {prettifyPayload(entry.task_payload)}
         </SyntaxHighlighter>
       </TableCell>
-      <TableCell className={clsx(isLastRow && classes.noBorder)}>
+      <TableCell className={cx(isLastRow && classes.noBorder)}>
         <SyntaxHighlighter language="go">
           {entry.options.length > 0 ? entry.options.join(", ") : "No options"}
         </SyntaxHighlighter>
       </TableCell>
-      <TableCell className={clsx(isLastRow && classes.noBorder)}>
+      <TableCell className={cx(isLastRow && classes.noBorder)}>
         {durationBefore(entry.next_enqueue_at)}
       </TableCell>
-      <TableCell className={clsx(isLastRow && classes.noBorder)}>
+      <TableCell className={cx(isLastRow && classes.noBorder)}>
         {entry.prev_enqueue_at ? timeAgo(entry.prev_enqueue_at) : "N/A"}
       </TableCell>
       <TableCell>

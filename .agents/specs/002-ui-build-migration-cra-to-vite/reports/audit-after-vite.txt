@@ -1,0 +1,15 @@
+13 vulnerabilities found - Packages audited: 421
+Severity: 11 Moderate | 2 High
+Done in 0.41s.
+
+=== remaining advisories by package ===
+HIGH lodash — lodash vulnerable to Code Injection via `_.template` imports key names (patched: >=4.18.0) via redux-devtools
+MODERATE @babel/runtime — Babel has inefficient RegExp complexity in generated code with .replace when transpiling named capturing groups (patched: >=7.26.10) via @material-ui/core
+MODERATE @babel/runtime — Babel has inefficient RegExp complexity in generated code with .replace when transpiling named capturing groups (patched: >=7.26.10) via react-window
+MODERATE @babel/runtime-corejs3 — Babel has inefficient RegExp complexity in generated code with .replace when transpiling named capturing groups (patched: >=7.26.10) via @testing-library/jest-dom
+MODERATE @babel/runtime-corejs3 — Babel has inefficient RegExp complexity in generated code with .replace when transpiling named capturing groups (patched: >=7.26.10) via @testing-library/react
+MODERATE lodash — Lodash has Prototype Pollution Vulnerability in `_.unset` and `_.omit` functions (patched: >=4.17.23) via redux-devtools
+MODERATE lodash — lodash vulnerable to Prototype Pollution via array path bypass in `_.unset` and `_.omit` (patched: >=4.18.0) via redux-devtools
+After babel/lodash resolutions:
+0 vulnerabilities found - Packages audited: 419
+Done in 0.32s.

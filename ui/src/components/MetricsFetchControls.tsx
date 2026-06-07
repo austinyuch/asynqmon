@@ -1,22 +1,23 @@
 import React from "react";
 import { connect, ConnectedProps } from "react-redux";
-import { makeStyles, Theme } from "@material-ui/core/styles";
-import Button, { ButtonProps } from "@material-ui/core/Button";
-import ButtonGroup from "@material-ui/core/ButtonGroup";
-import IconButton from "@material-ui/core/IconButton";
-import Popover from "@material-ui/core/Popover";
-import Radio from "@material-ui/core/Radio";
-import RadioGroup from "@material-ui/core/RadioGroup";
-import Checkbox from "@material-ui/core/Checkbox";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import FormControl from "@material-ui/core/FormControl";
-import FormGroup from "@material-ui/core/FormGroup";
-import FormLabel from "@material-ui/core/FormLabel";
-import TextField from "@material-ui/core/TextField";
-import Typography from "@material-ui/core/Typography";
-import ArrowLeftIcon from "@material-ui/icons/ArrowLeft";
-import ArrowRightIcon from "@material-ui/icons/ArrowRight";
-import FilterListIcon from "@material-ui/icons/FilterList";
+import { Theme } from "@mui/material/styles";
+import { makeStyles } from 'tss-react/mui';
+import Button, { ButtonProps } from "@mui/material/Button";
+import ButtonGroup from "@mui/material/ButtonGroup";
+import IconButton from "@mui/material/IconButton";
+import Popover from "@mui/material/Popover";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+import Checkbox from "@mui/material/Checkbox";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormControl from "@mui/material/FormControl";
+import FormGroup from "@mui/material/FormGroup";
+import FormLabel from "@mui/material/FormLabel";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
+import ArrowLeftIcon from "@mui/icons-material/ArrowLeft";
+import ArrowRightIcon from "@mui/icons-material/ArrowRight";
+import FilterListIcon from "@mui/icons-material/FilterList";
 import dayjs from "dayjs";
 import { currentUnixtime, parseDuration } from "../utils";
 import { AppState } from "../store";
@@ -58,7 +59,7 @@ interface State {
 type EndTimeOption = "real_time" | "freeze_at_now" | "custom";
 type DurationOption = "1h" | "6h" | "1d" | "8d" | "30d" | "custom";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles()((theme) => ({
   root: {
     display: "flex",
     alignItems: "center",
@@ -198,7 +199,7 @@ function getInitialState(endTimeSec: number, durationSec: number): State {
 }
 
 function MetricsFetchControls(props: Props) {
-  const classes = useStyles();
+  const { classes } = useStyles();
 
   const [state, setState] = React.useState<State>(
     getInitialState(props.endTimeSec, props.durationSec)
@@ -400,9 +401,7 @@ function MetricsFetchControls(props: Props) {
           color="primary"
           onClick={handleOpenTimePopover}
           size="small"
-          classes={{
-            label: classes.buttonLabel,
-          }}
+          className={classes.buttonLabel}
         >
           {state.endTimeOption === "real_time" ? "Realtime" : "Historical"}:{" "}
           {state.durationOption === "custom"
@@ -669,7 +668,7 @@ interface RadioInputProps {
 }
 
 function RadioInput(props: RadioInputProps) {
-  const classes = useStyles();
+  const { classes } = useStyles();
   return (
     <FormControlLabel
       classes={{ label: classes.formControlLabel }}
@@ -689,32 +688,32 @@ interface ShiftButtonProps extends ButtonProps {
   dense?: boolean;
 }
 
-const useShiftButtonStyles = makeStyles((theme: Theme) => ({
-  root: {
-    minWidth: 40,
-    fontWeight: (props: ShiftButtonProps) => (props.dense ? 400 : 500),
-  },
-  label: { fontSize: 12, textTransform: "none" },
-  iconRoot: {
-    marginRight: (props: ShiftButtonProps) =>
-      props.direction === "left" ? (props.dense ? -8 : -4) : 0,
-    marginLeft: (props: ShiftButtonProps) =>
-      props.direction === "right" ? (props.dense ? -8 : -4) : 0,
-    color: (props: ShiftButtonProps) =>
-      props.color
+const useShiftButtonStyles = makeStyles<ShiftButtonProps>()(
+  (theme: Theme, props) => ({
+    root: {
+      minWidth: 40,
+      fontWeight: props.dense ? 400 : 500,
+      // v5 Button has no `label` slot; typography lives on root.
+      fontSize: 12,
+      textTransform: "none",
+    },
+    iconRoot: {
+      marginRight: props.direction === "left" ? (props.dense ? -8 : -4) : 0,
+      marginLeft: props.direction === "right" ? (props.dense ? -8 : -4) : 0,
+      color: props.color
         ? props.color
         : theme.palette.grey[isDarkTheme(theme) ? 200 : 700],
-  },
-}));
+    },
+  })
+);
 
 function ShiftButton(props: ShiftButtonProps) {
-  const classes = useShiftButtonStyles(props);
+  const { classes } = useShiftButtonStyles(props);
   return (
     <Button
       {...props}
       classes={{
         root: classes.root,
-        label: classes.label,
       }}
       size="small"
     >

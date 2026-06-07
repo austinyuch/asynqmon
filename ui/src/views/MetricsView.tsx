@@ -1,13 +1,13 @@
 import React from "react";
 import { connect, ConnectedProps } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import queryString from "query-string";
-import { makeStyles } from "@material-ui/core/styles";
-import Container from "@material-ui/core/Container";
-import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
-import WarningIcon from "@material-ui/icons/Warning";
-import InfoIcon from "@material-ui/icons/Info";
+import { makeStyles } from 'tss-react/mui';
+import Container from "@mui/material/Container";
+import Grid from "@mui/material/Grid";
+import Typography from "@mui/material/Typography";
+import WarningIcon from "@mui/icons-material/Warning";
+import InfoIcon from "@mui/icons-material/Info";
 import prettyBytes from "pretty-bytes";
 import { getMetricsAsync } from "../actions/metricsActions";
 import { listQueuesAsync } from "../actions/queuesActions";
@@ -19,7 +19,7 @@ import MetricsFetchControls from "../components/MetricsFetchControls";
 import { useQuery } from "../hooks";
 import { PrometheusMetricsResponse } from "../api";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles()((theme) => ({
   container: {
     marginTop: 30,
     paddingTop: theme.spacing(4),
@@ -77,8 +77,9 @@ const ENDTIME_URL_PARAM_KEY = "end";
 const DURATION_URL_PARAM_KEY = "duration";
 
 function MetricsView(props: Props) {
-  const classes = useStyles();
-  const history = useHistory();
+  const { classes } = useStyles();
+  const navigate = useNavigate();
+  const location = useLocation();
   const query = useQuery();
 
   const endTimeStr = query.get(ENDTIME_URL_PARAM_KEY);
@@ -102,8 +103,8 @@ function MetricsView(props: Props) {
       : {
           [DURATION_URL_PARAM_KEY]: durationSec,
         };
-    history.push({
-      ...history.location,
+    navigate({
+      ...location,
       search: queryString.stringify(urlQuery),
     });
     setEndTimeSec(endTime);
@@ -118,8 +119,8 @@ function MetricsView(props: Props) {
       : {
           [DURATION_URL_PARAM_KEY]: duration,
         };
-    history.push({
-      ...history.location,
+    navigate({
+      ...location,
       search: queryString.stringify(urlQuery),
     });
     setDurationSec(duration);
@@ -297,7 +298,7 @@ interface ChartRowProps {
 }
 
 function ChartRow(props: ChartRowProps) {
-  const classes = useStyles();
+  const { classes } = useStyles();
   return (
     <>
       <div className={classes.chartInfo}>

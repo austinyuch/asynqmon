@@ -1,21 +1,21 @@
-import { AxiosError } from "axios";
+import axios from "axios";
 
 // toErrorStringWithHttpStatus returns a string representaion of axios error with HTTP status.
-export function toErrorStringWithHttpStatus(error: AxiosError<string>): string {
-  const { response } = error;
-  if (!response) {
+// Accepts unknown so call sites can pass catch variables directly (TS strict catch).
+export function toErrorStringWithHttpStatus(error: unknown): string {
+  if (!axios.isAxiosError(error) || !error.response) {
     return "error: no error response data available";
   }
+  const { response } = error;
   return `${response.status} (${response.statusText}): ${response.data}`;
 }
 
 // toErrorString returns a string representaion of axios error.
-export function toErrorString(error: AxiosError<string>): string {
-  const { response } = error;
-  if (!response) {
+export function toErrorString(error: unknown): string {
+  if (!axios.isAxiosError(error) || !error.response) {
     return "Unknown error occurred. See the logs for details.";
   }
-  return response.data;
+  return String(error.response.data);
 }
 
 interface Duration {

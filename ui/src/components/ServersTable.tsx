@@ -1,31 +1,30 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import clsx from "clsx";
-import { makeStyles } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
-import Box from "@material-ui/core/Box";
-import Collapse from "@material-ui/core/Collapse";
-import IconButton from "@material-ui/core/IconButton";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import TableSortLabel from "@material-ui/core/TableSortLabel";
-import Tooltip from "@material-ui/core/Tooltip";
-import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
-import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
-import Alert from "@material-ui/lab/Alert";
-import AlertTitle from "@material-ui/lab/AlertTitle";
+import { makeStyles } from 'tss-react/mui';
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import Collapse from "@mui/material/Collapse";
+import IconButton from "@mui/material/IconButton";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import TableSortLabel from "@mui/material/TableSortLabel";
+import Tooltip from "@mui/material/Tooltip";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
 import SyntaxHighlighter from "./SyntaxHighlighter";
 import { ServerInfo } from "../api";
 import { SortDirection, SortableTableColumn } from "../types/table";
 import { timeAgo, uuidPrefix, prettifyPayload } from "../utils";
 import { queueDetailsPath } from "../paths";
-import Typography from "@material-ui/core/Typography";
+import Typography from "@mui/material/Typography";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles()((theme) => ({
   table: {
     minWidth: 650,
   },
@@ -93,7 +92,7 @@ interface Props {
 }
 
 export default function ServersTable(props: Props) {
-  const classes = useStyles();
+  const { classes, cx } = useStyles();
   const [sortBy, setSortBy] = useState<SortBy>(SortBy.HostPID);
   const [sortDir, setSortDir] = useState<SortDirection>(SortDirection.Asc);
 
@@ -171,7 +170,7 @@ export default function ServersTable(props: Props) {
               <TableCell
                 key={cfg.key}
                 align={cfg.align}
-                className={clsx(i === 0 && classes.fixedCell)}
+                className={cx(i === 0 && classes.fixedCell)}
               >
                 <TableSortLabel
                   active={cfg.sortBy === sortBy}
@@ -198,7 +197,7 @@ interface RowProps {
   server: ServerInfo;
 }
 
-const useRowStyles = makeStyles((theme) => ({
+const useRowStyles = makeStyles()((theme) => ({
   rowRoot: {
     "& > *": {
       borderBottom: "unset",
@@ -213,7 +212,7 @@ const useRowStyles = makeStyles((theme) => ({
 }));
 
 function Row(props: RowProps) {
-  const classes = useRowStyles();
+  const { classes } = useRowStyles();
   const { server } = props;
   const [open, setOpen] = useState<boolean>(false);
   const qnames = Object.keys(server.queue_priorities);

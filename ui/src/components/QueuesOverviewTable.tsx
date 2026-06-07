@@ -1,20 +1,19 @@
 import React, { useState } from "react";
-import clsx from "clsx";
 import { Link } from "react-router-dom";
-import { makeStyles } from "@material-ui/core/styles";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import TableSortLabel from "@material-ui/core/TableSortLabel";
-import IconButton from "@material-ui/core/IconButton";
-import Tooltip from "@material-ui/core/Tooltip";
-import PauseCircleFilledIcon from "@material-ui/icons/PauseCircleFilled";
-import PlayCircleFilledIcon from "@material-ui/icons/PlayCircleFilled";
-import DeleteIcon from "@material-ui/icons/Delete";
-import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
+import { makeStyles } from 'tss-react/mui';
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import TableSortLabel from "@mui/material/TableSortLabel";
+import IconButton from "@mui/material/IconButton";
+import Tooltip from "@mui/material/Tooltip";
+import PauseCircleFilledIcon from "@mui/icons-material/PauseCircleFilled";
+import PlayCircleFilledIcon from "@mui/icons-material/PlayCircleFilled";
+import DeleteIcon from "@mui/icons-material/Delete";
+import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import DeleteQueueConfirmationDialog from "./DeleteQueueConfirmationDialog";
 import { Queue } from "../api";
 import { queueDetailsPath } from "../paths";
@@ -22,7 +21,7 @@ import { SortDirection, SortableTableColumn } from "../types/table";
 import prettyBytes from "pretty-bytes";
 import { percentage } from "../utils";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles()((theme) => ({
   table: {
     minWidth: 650,
   },
@@ -107,7 +106,7 @@ function sortQueues(
 }
 
 export default function QueuesOverviewTable(props: Props) {
-  const classes = useStyles();
+  const { classes, cx } = useStyles();
   const [sortBy, setSortBy] = useState<SortBy>(SortBy.Queue);
   const [sortDir, setSortDir] = useState<SortDirection>(SortDirection.Asc);
   const [queueToDelete, setQueueToDelete] = useState<QueueWithMetadata | null>(
@@ -192,7 +191,7 @@ export default function QueuesOverviewTable(props: Props) {
                   <TableCell
                     key={cfg.key}
                     align={cfg.align}
-                    className={clsx(i === 0 && classes.fixedCell)}
+                    className={cx(i === 0 && classes.fixedCell)}
                   >
                     {cfg.sortBy !== SortBy.None ? (
                       <TableSortLabel
@@ -230,7 +229,7 @@ export default function QueuesOverviewTable(props: Props) {
   );
 }
 
-const useRowStyles = makeStyles((theme) => ({
+const useRowStyles = makeStyles()((theme) => ({
   row: {
     "&:last-child td": {
       borderBottomWidth: 0,
@@ -276,7 +275,7 @@ interface RowProps {
 }
 
 function Row(props: RowProps) {
-  const classes = useRowStyles();
+  const { classes, cx } = useRowStyles();
   const { queue: q } = props;
   const [showIcons, setShowIcons] = useState<boolean>(false);
   return (
@@ -284,7 +283,7 @@ function Row(props: RowProps) {
       <TableCell
         component="th"
         scope="row"
-        className={clsx(classes.boldCell, classes.fixedCell)}
+        className={cx(classes.boldCell, classes.fixedCell)}
       >
         <Link to={queueDetailsPath(q.queue)} className={classes.linkText}>
           {q.queue}
