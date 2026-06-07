@@ -35,10 +35,14 @@ COPY . .
 COPY --from=frontend ["/static/build", "ui/build"]
 
 # Set necessary environmet variables needed for the image and build the server.
-ENV CGO_ENABLED=0 GOOS=linux GOARCH=amd64
+# TARGETOS/TARGETARCH are populated automatically by BuildKit and buildah/podman,
+# so the image works on amd64 and arm64 alike (empty values fall back to host).
+ARG TARGETOS
+ARG TARGETARCH
+ENV CGO_ENABLED=0
 
 # Run go build (with ldflags to reduce binary size).
-RUN go build -ldflags="-s -w" -o asynqmon ./cmd/asynqmon
+RUN GOOS=${TARGETOS:-linux} GOARCH=${TARGETARCH} go build -ldflags="-s -w" -o asynqmon ./cmd/asynqmon
 
 #
 # Third stage: 

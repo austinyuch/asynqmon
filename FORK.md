@@ -42,6 +42,7 @@ git config core.hooksPath githooks   # 啟用 pre-push govulncheck
 | UI runtime deps | axios 0.32.0(direct);resolutions:prismjs 1.30.0、decode-uri-component 0.2.2、d3-color 3.1.0、lodash 4.18.1、@babel/runtime(-corejs3) 7.29.7、@types/react(-dom) 18(path-to-regexp pin 已隨 router 6 移除);`ui/build/` 以修復後依賴重建 | SPEC-001/002 vuln 收斂(yarn audit 415 → 0) |
 | UI frameworks | React 16.14 → **18.3.1**(SPEC-004);@material-ui v4 → **@mui v5** + emotion + tss-react(SPEC-003);react-router 5 → **6.30**;react-redux 9 + RTK 2;TS 4.9 → **5.9**;recharts 2.15;@testing-library/redux-devtools 等未使用件移除 | EOL majors 清零 |
 | UI build toolchain | CRA/react-scripts → **Vite 8** + vite-plugin-svgr + Vitest;`pretty-bytes` 補為直接依賴(原為幽靈依賴);`index.html` 移至 ui/ 根、Go template token 由 `goTemplateBaseGuard` plugin + post-build gate 保護;Dockerfile frontend `alpine:3.17`→`node:22-alpine`(移除 openssl-legacy hack);Makefile/release.yml 同步 | SPEC-002:CRA 已 EOL,build 鏈 58 critical 無修復出路(`.agents/specs/002-ui-build-migration-cra-to-vite/`) |
+| Container build | Dockerfile 改用 `TARGETOS`/`TARGETARCH`(修正寫死 amd64,arm64 可建);Makefile 自動偵測 podman/docker 與 host alias。註:主要消費型態為 Go library(`go:embed` UI bundle),容器路徑為次要部署選項 | Podman rootless / arm64 友善 |
 | Git hooks | `githooks/pre-push` 跑 `govulncheck ./...`;啟用:`git config core.hooksPath githooks`(per-clone,不入版控) | 與 asynq fork 治理對齊 |
 | 其他 | `FORK.md`、`.agents/skills/upstream-sync/`、`.agents/specs/` | 團隊維運工具 |
 
