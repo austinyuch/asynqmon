@@ -20,10 +20,10 @@ jobs:
         ports:
           - 6379:6379
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Set up Go
-        uses: actions/setup-go@v5
+        uses: actions/setup-go@v6
         with:
           go-version: 1.26.x
           cache: true
@@ -38,7 +38,7 @@ jobs:
         run: go test -race -count=1 ./...
 
       - name: Set up Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: "24"
 
@@ -46,7 +46,7 @@ jobs:
         run: |
           cd ui
           corepack enable
-          yarn install --frozen-lockfile --ignore-engines
+          yarn install --immutable
           yarn lint
           yarn test
 
@@ -60,10 +60,10 @@ jobs:
         ports:
           - 6379:6379
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Set up Go
-        uses: actions/setup-go@v5
+        uses: actions/setup-go@v6
         with:
           go-version: 1.26.x
           cache: true
@@ -82,7 +82,7 @@ jobs:
           curl -sf http://localhost:8080/api/queues > /dev/null
 
       - name: Set up Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: "24"
 
@@ -90,6 +90,6 @@ jobs:
         run: |
           cd ui
           corepack enable
-          yarn install --frozen-lockfile --ignore-engines
+          yarn install --immutable
           npx playwright install chromium --with-deps
           ASYNQMON_BASE_URL=http://localhost:8080 npx playwright test e2e/smoke.spec.ts

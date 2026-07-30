@@ -12,7 +12,7 @@ WORKDIR /static
 COPY ui .
 
 # Run yarn scripts (install & build) via corepack-managed yarn.
-RUN corepack enable && yarn install --frozen-lockfile && yarn build
+RUN corepack enable && yarn install --immutable && yarn build
 
 #
 # Second stage: 

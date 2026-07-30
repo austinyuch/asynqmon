@@ -1,10 +1,10 @@
 # NEXT_STEPS (rolling operational memo)
 
-- **Classification**: SPEC-001~006 and closed CRs are complete; no active implementation lane
-- **Active spec / lane**: none after CR-2026-07-30-003 promotion
-- **Current phase**: local CI Go package scope hardened; `main` and `dev` synchronized after CR-2026-07-30-004 promotion
-- **Next action**: rank the remaining dependency peer mismatch, tooling warnings, and bundle-size posture before opening another CR
+- **Classification**: completed UI modernization CR; separate compatibility and operator-approval follow-ups
+- **Active spec / lane**: CR-2026-07-30-006 Node 26 compatibility is planned separately; Node 24 remains production/CI baseline
+- **Current phase**: CR-2026-07-30-005 completed; exact-clone full local CI, correlated security, semantic review, hosted build, and real-data E2E 7/7 are green
+- **Next action**: open the separate Node 26 compatibility lane when scheduled; review `temp/container-image-inventory-2026-07-30.csv` and explicitly approve individual Podman cleanup rows before any deletion
 - **Operational command**: `make security-refresh`, `make security`, and `make local-ci`
 - **Known disposition**: React Router GHSA-qwww-vcr4-c8h2 is limited upstream to unused unstable RSC APIs and remains tracked as not affected in `.security/vex.json`; revisit when a registry-compatible 8.3+ migration is available
-- **Blockers**: none
-- **Resume hint**: registry [SPECS.md](./SPECS.md); resolved history [ISSUE_LOG.md](./ISSUE_LOG.md); traceability [RTM.md](./RTM.md)
+- **Blockers**: Podman cleanup requires explicit per-item approval. Local real-data E2E still has no registered asynqmon runtime helper, so hosted workflow remains the non-bypassing path.
+- **Resume hint**: completed evidence [CR-2026-07-30-005](./004-ui-react16-to-react18-router6-migration/change-requests/CR-2026-07-30-005.md); Node plan [CR-2026-07-30-006](./002-ui-build-migration-cra-to-vite/change-requests/CR-2026-07-30-006.md)

@@ -39,7 +39,7 @@ asynqmon/
 ## COMMANDS
 ```bash
 go build ./... && go vet ./... && go test -race -count=1 ./...
-cd ui && yarn install --frozen-lockfile && yarn build   # tsc + vite + token gate
+cd ui && corepack yarn install --immutable && corepack yarn build   # tsc + vite + token gate
 cd ui && yarn test && yarn lint
 make security-refresh  # refresh CISA KEV + Trivy DB (network)
 make security          # correlated Semgrep + CycloneDX + CVE + KEV + govulncheck

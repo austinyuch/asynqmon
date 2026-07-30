@@ -17,7 +17,11 @@ function goTemplateBaseGuard(): Plugin {
 }
 
 export default defineConfig({
-  base: "/[[.RootPath]]/",
+  // Keep generated chunks relative to the entry module. The Go server only
+  // templates index.html, so embedding RootPath in hashed JavaScript would
+  // leave a literal template token at runtime. The templated <base> in
+  // index.html anchors the entry and public assets for deep links.
+  base: "./",
   plugins: [react(), svgr(), goTemplateBaseGuard()],
   build: {
     outDir: "build",
