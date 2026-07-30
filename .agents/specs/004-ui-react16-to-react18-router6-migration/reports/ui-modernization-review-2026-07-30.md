@@ -37,3 +37,9 @@ PASS for local implementation and security controls; final hosted build/E2E evid
 - Node 26 remains a separate compatibility-only CR (`CR-2026-07-30-006`); Node 24 remains the production and hosted CI baseline.
 - The repository has no registered local asynqmon runtime helper, so real-data E2E uses the existing hosted workflow rather than an ad-hoc container.
 - Secret scanning is not yet part of the canonical correlated local gate. The one-off full-history proof is recorded here without silently changing the established security contract.
+
+## Hosted failure-driven corrections
+
+- Run `30542886625` failed all seven E2E cases because Vite embedded the Go-only `RootPath` template token inside JavaScript preload URLs. The build now uses relative chunk URLs plus an HTML-only templated `<base>`, and the token gate rejects any future RootPath token in JavaScript.
+- Run `30543778947` proved the MIME/chunk failure was gone but exposed React #130 from MUI icons. Package-wide `"type": "module"` had changed CommonJS default interop; ESM is now scoped to `.mjs`/`.mts` config files instead.
+- A production-bundle browser probe after the interop correction rendered the application shell and Dashboard without React errors. Only expected API 404s were observed because that diagnostic intentionally did not start a backend.
