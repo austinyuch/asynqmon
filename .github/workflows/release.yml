@@ -5,6 +5,9 @@ on:
     types:
       - created
 
+permissions:
+  contents: write
+
 jobs:
   release:
     runs-on: ubuntu-latest
@@ -27,28 +30,19 @@ jobs:
         with:
           node-version: "24"
 
-      - name: Get release
-        id: release
-        uses: bruceadams/get-release@v1.2.2
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-
       - name: Install NPM packages
         run: cd ui && corepack enable && yarn install --immutable
 
       - name: Build Release Binary
         run: |
           GOOS=${{ matrix.goos }} GOARCH=amd64 make build
-          tar -czvf asynqmon_${{ steps.release.outputs.tag_name }}_${{ matrix.goos }}_amd64.tar.gz asynqmon
+          tar -czvf asynqmon_${{ github.event.release.tag_name }}_${{ matrix.goos }}_amd64.tar.gz asynqmon
           ls
 
       - name: Upload Release Binary
-        id: upload-go-release-asset
-        uses: actions/upload-release-asset@v1
         env:
-          GITHUB_TOKEN: ${{ github.token }}
-        with:
-          upload_url: ${{ steps.release.outputs.upload_url }}
-          asset_path: ./asynqmon_${{ steps.release.outputs.tag_name }}_${{ matrix.goos }}_amd64.tar.gz
-          asset_name: asynqmon_${{ steps.release.outputs.tag_name }}_${{ matrix.goos }}_amd64.tar.gz
-          asset_content_type: application/gzip
+          GH_TOKEN: ${{ github.token }}
+        run: >-
+          gh release upload "${{ github.event.release.tag_name }}"
+          "asynqmon_${{ github.event.release.tag_name }}_${{ matrix.goos }}_amd64.tar.gz"
+          --repo "${{ github.repository }}"
