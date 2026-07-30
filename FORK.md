@@ -32,12 +32,12 @@ git config core.hooksPath githooks   # 啟用 canonical local CI pre-push gate
 | 範圍 | 內容 | 原因 |
 |---|---|---|
 | Module path | `github.com/hibiken/asynqmon` → `github.com/austinyuch/asynqmon`(go.mod + 全部 import + README 範例) | 下游直接 require,免 `replace` |
-| asynq 依賴 | `hibiken/asynq v0.24.1` → `austinyuch/asynq v0.26.0-team.1`;`hibiken/asynq/x`(pseudo-version)→ `austinyuch/asynq/x v0.1.0-team.1` | 吃到團隊 fork 的 security hardening(go-redis v9.20.0、protobuf v1.36.11 等皆隨之收斂) |
+| asynq 依賴 | `hibiken/asynq v0.24.1` → `austinyuch/asynq v0.26.0-team.2`;`hibiken/asynq/x`(pseudo-version)→ `austinyuch/asynq/x v0.1.0-team.2` | 吃到團隊 fork 的 security release(CVE-2026-56852 dependency closure、CWE-190 saturation fix、go-redis v9.21.0) |
 | Dependencies | gorilla/mux v1.8.1、rs/cors v1.11.1(DoS fix)、prometheus/client_golang v1.24.1、direct go-redis v9.21.0(asynq fork 仍管理其 own transitive contract) | security hardening / CVE 面收斂 |
-| Go toolchain | `go 1.16` → `go 1.25.0` + `toolchain go1.26.4`;CI 用 1.26.x | 跟上 supported releases,與 asynq fork 一致 |
+| Go toolchain | `go 1.16` → `go 1.26` + `toolchain go1.26.4`;CI 用 1.26.x | 跟上 supported releases,與 asynq fork team.2 的最低版本一致 |
 | `cmd/asynqmon/main_test.go` | sentinel URI 測試期望改為 `SentinelPassword`(原註解即標 FIXME) | asynq `c08f142`(v0.25+)修正 sentinel URI 解析行為 |
 | CI | 新增 `build.yml`(PR → dev/main;Go build/vet/test + UI lint/vitest;另有 `e2e` job 跑 canonical demo browser smoke;valkey 9.1.0 service);codeql / docker-publish 改 target `main`;docker-publish 改 manual-only(遠端發佈暫緩,local podman 為 canonical——見 IL-R10);release.yml 改 Go 1.26.x + Node 24，移除停止維護的 release actions，改以 GitHub CLI 上傳 assets；checkout/setup-go/setup-node 升 v6，CodeQL 升 v3 + `security-events: write` | 配合 branch model、Node 24 action runtime 與 least-privilege fork 發佈通道 |
-| `Dockerfile` | backend stage `golang:1.18-alpine` → `golang:1.26-alpine` | go 1.25.0 module 需要新 toolchain |
+| `Dockerfile` | backend stage `golang:1.18-alpine` → `golang:1.26-alpine` | go 1.26 module 需要新 toolchain |
 | Docs | README 的 import 範例 / docker image / godoc / releases 連結改 fork path;指向 upstream wiki、issues、license 的連結刻意保留 | 反映 fork 現況 |
 | UI runtime deps | axios 1.19.0、clsx 2.1.1、dayjs 1.11.21;resolutions:prismjs 1.30.0、brace-expansion 5.0.8、form-data 4.0.6、js-yaml 4.3.0、postcss 8.5.18、undici 7.28.0 等;`ui/build/` 以修復後依賴重建 | SPEC-001/006 vuln 收斂 |
 | UI frameworks | React 16.14 → **18.3.1**(SPEC-004);@material-ui v4 → **@mui v5** + emotion + tss-react(SPEC-003);react-router 5 → **7.18.2**;react-redux 9 + RTK 2;TS 4.9 → **5.9**;recharts 2.15;@testing-library/redux-devtools 等未使用件移除 | EOL majors 清零;router 8.3.0 registry availability/migration deferred,unstable RSC-only advisory tracked in `.security/vex.json` |
@@ -58,3 +58,8 @@ git config core.hooksPath githooks   # 啟用 canonical local CI pre-push gate
 ## Release tags
 
 單一 module,tag 格式:`vX.Y.Z-team.N`(對應 upstream 最近 release 加 team 序號)。
+
+| Tag | 內容 |
+|---|---|
+| `v0.7.2-team.1` | 首個穩定 team-fork release;asynq root/x `team.1` |
+| `v0.7.2-team.2` | asynq root/x 升至 `team.2`;最低 Go 版本升至 1.26;完整 local CI 與 correlated SBOM/CVE/KEV/SAST 通過 |

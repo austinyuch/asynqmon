@@ -18,7 +18,7 @@
 | REQ-QG-001 UI E2E 正式基線 | SPEC-005 | 005/design.md(Q-R1/Q-R4)、Q-T1/T4 | PASS | `ui/e2e/smoke.spec.ts` 7/7;PR #24/#25 hosted E2E;retry-state bounded auto-wait `3c0d1ef` |
 | REQ-QG-002 eslint 鏈 | SPEC-005 | 005/design.md、Q-T2;CR-2026-07-30-003 | PASS | `yarn lint` 0 errors / 0 warnings;CI lint step;`SplitButton` lazy Popper anchor |
 | REQ-QG-003 Metrics 真實驗證 | SPEC-005 | 005/design.md(Q-R2)、Q-T3 | PASS | `docs/manual/assets/metrics-live-01/02.png`(61 svg data paths);IL-R09 |
-| REQ-LSS-001 local SBOM/CVE | SPEC-006 | 006/design.md、LSS-T1/T2/T5 | PASS | CycloneDX 486 components;Trivy 1 disclosed/0 blocking;Semgrep 0;govulncheck 0;PR #24/#25 |
+| REQ-LSS-001 local SBOM/CVE | SPEC-006 | 006/design.md、LSS-T1/T2/T5 | PASS | CycloneDX 501 components after asynq team.2 re-pin;Trivy 1 disclosed/0 blocking;Semgrep 0;govulncheck 0 |
 | REQ-LSS-002 pinned CISA KEV | SPEC-006 | 006/design.md、LSS-T1/T2 | PASS | 8 security correlation/unit tests;catalog receipt SHA-256+freshness;KEV exact matches 0 |
 | REQ-LSS-003 shift-left activation | SPEC-006 | 006/design.md、LSS-T3/T5;CR-2026-07-30-004 | PASS | `scripts/local-ci.sh --full`;owned Go package scope excludes `node_modules`;`githooks/pre-push`;hosted build/E2E/CodeQL |
 | REQ-LSS-004 applicable upgrades | SPEC-006 | 006/design.md、LSS-T4/T5 | PASS with bounded VEX | Go/UI lockfiles upgraded;embedded bundle rebuilt;RSC-only GHSA disposition tracked;PR #24/#25 |

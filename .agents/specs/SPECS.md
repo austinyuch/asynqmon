@@ -18,4 +18,4 @@
 |---|---|---|---|
 | npm security advisories | external(GitHub Advisory DB) | `ui/package.json` resolutions + `yarn.lock` | 見 SPEC-001 design |
 | upstream hibiken/asynqmon | external(upstream repo) | `master` mirror branch + FORK.md | sync log 見 FORK.md |
-| asynq fork dependency | external(austinyuch/asynq) | `go.mod` | v0.26.0-team.1 / x v0.1.0-team.1 |
+| asynq fork dependency | external(austinyuch/asynq) | `go.mod` | v0.26.0-team.2 / x v0.1.0-team.2 |
