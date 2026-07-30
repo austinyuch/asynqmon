@@ -1,0 +1,1 @@
+import{Qt as e,qt as t}from"./Typography-C6xSErYP.js";import{Ht as n}from"./index-CzdO_O7G.js";var r=e(t(),1);function i(e,t){(0,r.useEffect)(()=>{e();let n=setInterval(e,t*1e3);return()=>clearInterval(n)},[t,e])}function a(){let{search:e}=n();return(0,r.useMemo)(()=>new URLSearchParams(e),[e])}export{a as n,i as t};

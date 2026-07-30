@@ -3,9 +3,9 @@
 | Spec | Status | Depends On | Impacts | Open Change Requests |
 |---|---|---|---|---|
 | [001-ui-runtime-vuln-hardening](./001-ui-runtime-vuln-hardening/) | Completed(PR #2,merged 2026-06-07) | PR #1 security hardening baseline | FORK.md divergence table | — |
-| [002-ui-build-migration-cra-to-vite](./002-ui-build-migration-cra-to-vite/) | Completed(PR #4)| — | Dockerfile、release.yml、FORK.md、ui/TESTS.md | — |
+| [002-ui-build-migration-cra-to-vite](./002-ui-build-migration-cra-to-vite/) | Completed(PR #4)| — | Dockerfile、release.yml、FORK.md、ui/TESTS.md | CR-2026-07-30-006(planned Node 26 compatibility lane) |
 | [003-ui-mui4-to-mui5-migration](./003-ui-mui4-to-mui5-migration/) | Completed(PR #7;smoke 12/12)| SPEC-002、SPEC-004A | ui/TESTS.md | — |
-| [004-ui-react16-to-react18-router6-migration](./004-ui-react16-to-react18-router6-migration/) | Completed(A:PR #6;B:PR #8;smoke 12/12)| A:SPEC-002;B:SPEC-003 | SPEC-001 resolutions(path-to-regexp 已移除)、ui/TESTS.md | — |
+| [004-ui-react16-to-react18-router6-migration](./004-ui-react16-to-react18-router6-migration/) | Completed(A:PR #6;B:PR #8;smoke 12/12)| A:SPEC-002;B:SPEC-003 | SPEC-001 resolutions(path-to-regexp 已移除)、ui/TESTS.md | CR-2026-07-30-005(review pending) |
 
 | [005-quality-gaps](./005-quality-gaps/) | Completed(PR #18;E2E CI gate + eslint + Metrics 驗證)| SPEC-002~004 | build.yml、docs/manual+review、ISSUE_LOG | — |
 | [006-local-supply-chain-security](./006-local-supply-chain-security/) | Completed(PR #24;promoted by PR #25;local+hosted CI verified)| SPEC-001、SPEC-004 | pre-push、SBOM/CVE/KEV、dependency baseline、FORK.md | — |

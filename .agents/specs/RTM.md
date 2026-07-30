@@ -22,5 +22,9 @@
 | REQ-LSS-002 pinned CISA KEV | SPEC-006 | 006/design.md、LSS-T1/T2 | PASS | 8 security correlation/unit tests;catalog receipt SHA-256+freshness;KEV exact matches 0 |
 | REQ-LSS-003 shift-left activation | SPEC-006 | 006/design.md、LSS-T3/T5;CR-2026-07-30-004 | PASS | `scripts/local-ci.sh --full`;owned Go package scope excludes `node_modules`;`githooks/pre-push`;hosted build/E2E/CodeQL |
 | REQ-LSS-004 applicable upgrades | SPEC-006 | 006/design.md、LSS-T4/T5 | PASS with bounded VEX | Go/UI lockfiles upgraded;embedded bundle rebuilt;RSC-only GHSA disposition tracked;PR #24/#25 |
+| REQ-UIMOD-001 React 18-compatible virtualization | SPEC-004 CR-2026-07-30-005 | UIMOD-T2/T5 | PASS(local;hosted final pending) | react-window 2.3.0;focused Vitest 3/3;UI suite 6/6;type/lint/build green |
+| REQ-UIMOD-002 maintained package-manager path | SPEC-004 CR-2026-07-30-005 | UIMOD-T1/T5 | PASS(local;hosted final pending) | Yarn 4.18.0 immutable install;DEP0169 absent;all install surfaces aligned |
+| REQ-UIMOD-003 warning-free Prism resolution | SPEC-004 CR-2026-07-30-005 | UIMOD-T3/T5 | PASS | react-syntax-highlighter 16.1.1;Prism resolution warning absent;security 0 blocking |
+| REQ-UIMOD-004 route-level code splitting | SPEC-004 CR-2026-07-30-005 | UIMOD-T4/T5 | PASS(local;hosted final pending) | entry 1,244,238→415,980 bytes;aggregate 1,260,924 bytes;token gate green |
 
 Cross-cutting evidence:`.agents/specs/TESTS.md`(rollup)、`ui/TESTS.md`(row-level)、FORK.md divergence 表。
