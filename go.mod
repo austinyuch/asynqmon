@@ -1,12 +1,12 @@
 module github.com/austinyuch/asynqmon
 
-go 1.25.0
+go 1.26
 
 toolchain go1.26.4
 
 require (
-	github.com/austinyuch/asynq v0.26.0-team.1
-	github.com/austinyuch/asynq/x v0.1.0-team.1
+	github.com/austinyuch/asynq v0.26.0-team.2
+	github.com/austinyuch/asynq/x v0.1.0-team.2
 	github.com/google/go-cmp v0.7.0
 	github.com/gorilla/mux v1.8.1
 	github.com/prometheus/client_golang v1.24.1
