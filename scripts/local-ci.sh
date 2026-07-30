@@ -23,9 +23,12 @@ export YARN_CACHE_FOLDER="${YARN_CACHE_FOLDER:-${repo_root}/.local-ci/yarn-cache
 mkdir -p "${GOMODCACHE}" "${GOCACHE}" "${COREPACK_HOME}" "${YARN_CACHE_FOLDER}"
 
 echo "local CI: Go build, vet, and race tests"
-(cd "${repo_root}" && go build ./...)
-(cd "${repo_root}" && go vet ./...)
-(cd "${repo_root}" && go test -race -count=1 ./...)
+"${repo_root}/scripts/test-go-owned-packages.sh"
+mapfile -t go_packages < <("${repo_root}/scripts/go-owned-packages.sh")
+echo "local CI: owned Go packages=${#go_packages[@]}"
+(cd "${repo_root}" && go build "${go_packages[@]}")
+(cd "${repo_root}" && go vet "${go_packages[@]}")
+(cd "${repo_root}" && go test -race -count=1 "${go_packages[@]}")
 
 echo "local CI: UI install, lint, unit tests, and embedded bundle build"
 (

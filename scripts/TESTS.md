@@ -9,8 +9,9 @@
 | SEC-CVE-001 | `.local-ci/security/trivy-vulnerabilities.json` + correlation receipt | 1 disclosed RSC-only advisory, 0 blocking HIGH/CRITICAL | SPEC-006 |
 | SEC-KEV-001 | `.local-ci/security/cve-kev-correlation.json` | 0 exact CISA KEV matches; catalog hash/schema/freshness valid | SPEC-006 |
 | SEC-CORR-001 | `.local-ci/security/sast-sbom-cve-kev-correlation.json` | SAST→SBOM→CVE→KEV links resolve; unresolved refs block | SPEC-006 |
-| SEC-GO-001 | `govulncheck ./...` | 0 vulnerabilities | SPEC-006 |
+| SEC-GO-001 | `govulncheck $(scripts/go-owned-packages.sh)` via `security-local.sh` | 0 vulnerabilities across module-owned packages; generated dependency trees excluded | SPEC-006 CR-2026-07-30-004 |
 | LOCAL-CI-001 | `./scripts/local-ci.sh --full` | Go build/vet/race + UI install/lint/test/build + all security gates pass | SPEC-006 |
+| LOCAL-CI-GO-SCOPE-001 | `./scripts/test-go-owned-packages.sh` | module-owned packages retained; `*/node_modules/*` excluded; partial discovery failure rejected | SPEC-006 CR-2026-07-30-004 |
 
 Evidence snapshot: 2026-07-30. Generated `.local-ci/` evidence is deliberately
 ignored and must be regenerated; the policy, tests, and VEX disposition are
