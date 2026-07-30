@@ -28,6 +28,9 @@ package-json.lock
 /asynqmon
 /api
 dist/
+.local-ci/
+__pycache__/
+*.py[cod]
 
 # Editor configs
 .idea/

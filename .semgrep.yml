@@ -1,0 +1,24 @@
+rules:
+  - id: asynqmon-python-shell-true
+    message: Avoid shell=True in repository automation.
+    severity: ERROR
+    languages: [python]
+    patterns:
+      - pattern: subprocess.$FUNC(..., shell=True, ...)
+
+  - id: asynqmon-go-command-shell
+    message: Avoid invoking a shell interpreter from Go with dynamic arguments.
+    severity: ERROR
+    languages: [go]
+    patterns:
+      - pattern-either:
+          - pattern: exec.Command("sh", "-c", $ARG)
+          - pattern: exec.Command("bash", "-c", $ARG)
+
+  - id: asynqmon-typescript-eval
+    message: Dynamic code execution is prohibited in UI source.
+    severity: ERROR
+    languages: [typescript, javascript]
+    pattern-either:
+      - pattern: eval(...)
+      - pattern: new Function(...)

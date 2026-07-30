@@ -16,7 +16,7 @@ asynqmon/
 │   └── src/
 ├── docs/                 # manual / review 生成物與 guides
 ├── .agents/{skills,specs}/  # canonical agent workspace(.claude/.kiro/.codex 下為 symlink)
-└── githooks/pre-push     # govulncheck gate(git config core.hooksPath githooks)
+└── githooks/pre-push     # canonical local CI gate(git config core.hooksPath githooks)
 ```
 
 ## WHERE TO LOOK
@@ -41,6 +41,9 @@ asynqmon/
 go build ./... && go vet ./... && go test -race -count=1 ./...
 cd ui && yarn install --frozen-lockfile && yarn build   # tsc + vite + token gate
 cd ui && yarn test && yarn lint
+make security-refresh  # refresh CISA KEV + Trivy DB (network)
+make security          # correlated Semgrep + CycloneDX + CVE + KEV + govulncheck
+make local-ci          # canonical full shift-left gate
 cd ui && npx playwright test e2e/smoke.spec.ts   # 需 demo env(見 docs/MANUAL_GENERATION_GUIDE.md);CI 自帶
 make build        # UI assets + binary
 make docker       # podman/docker 自動偵測
@@ -68,7 +71,7 @@ bash .agents/skills/local-image-publish-governance/scripts/publish_local_image.s
 **Runtime 鐵則**:起 Valkey / server / E2E 必須走 `local-infra-registry-governance`(registry 在 `~/.config/opencode/local-infra/`),不可 ad-hoc `docker run`。
 
 ## NOTES
-- 安全基線:yarn audit **0**、govulncheck **0**(pre-push gate);UI stack 全在現役 supported 線(React 18.3 / MUI 5.18 / router 6.30 / TS 5.9 / Vite 8)。
+- 安全基線:local CI 的 blocking HIGH/CRITICAL **0**、KEV **0**、govulncheck **0**;UI stack 為 React 18.3 / MUI 5.18 / router 7.18 / TS 5.9 / Vite 8;RSC-only advisory disposition 見 `.security/vex.json`。
 - 容器發佈:**local podman 為 canonical**(遠端 DockerHub 暫緩,IL-R10);docker-image-publish workflow 為手動觸發。
 - Metrics 頁需要 `--enable-metrics-exporter` + Prometheus;exporter 佔用 server 的 `/metrics` 路徑,**UI 的 Metrics 視圖在 `/q/metrics`**(側欄進入)。
 - asynq 依賴指向 team fork(`austinyuch/asynq v0.26.0-team.1`);upstream bump 時先回 asynq fork 做 sync + tag。
