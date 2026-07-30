@@ -1,0 +1,12 @@
+{
+  "schema": "asynqmon-vex/v1",
+  "statements": [
+    {
+      "advisory_id": "GHSA-qwww-vcr4-c8h2",
+      "package": "react-router",
+      "status": "not_affected",
+      "justification": "vulnerable_code_not_in_execute_path",
+      "detail": "The advisory affects only unstable React Server Components APIs. Asynqmon is a client-only Vite SPA using BrowserRouter and does not import or execute React Router RSC APIs."
+    }
+  ]
+}
