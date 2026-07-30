@@ -14,10 +14,13 @@
 - Both CR overlays pass `validate_adaptive_sdd.py`.
 - Folder-test, workspace-test, RTM, and SPECS writebacks pass `validate_governance_writeback.py`.
 - `make security` reports 486 SBOM components, one correlated VEX-disposed advisory, zero unresolved references, zero SAST findings, zero KEV matches, zero blocking findings, and zero Go vulnerabilities.
+- `make local-ci` passed on commit `ebd536c` in a clean local clone: Go build/vet/race, UI frozen install/lint/unit/build/token gate, and the full correlated security gate.
 
 ## Findings and residual risk
 
 No blocking or material semantic finding remains in this governance-only diff. The principal risk was derived metadata diverging from accepted review and PR evidence; the upstream-to-derived validators and explicit PR pins address it.
+
+The full gate retains non-blocking existing warnings for `SplitButton` render-time ref access, `react-window`'s React 18 peer range, ESM config detection, and bundle size. They are next-gap inputs, not evidence against this documentation-only reconciliation.
 
 The React Router advisory remains a bounded residual risk recorded in `.security/vex.json`: the vulnerable unstable RSC API is not used by this BrowserRouter application. This review does not reinterpret that VEX decision.
 
