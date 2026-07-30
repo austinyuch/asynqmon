@@ -1,4 +1,4 @@
-.PHONY: api assets build docker
+.PHONY: api assets build docker local-ci security security-refresh
 
 # Container runtime: prefer podman (rootless) when present, fall back to docker.
 CONTAINER_RUNTIME ?= $(shell command -v podman >/dev/null 2>&1 && echo podman || echo docker)
@@ -16,6 +16,15 @@ api:
 # Build a release binary.
 build: assets
 	go build -o asynqmon ./cmd/asynqmon
+
+local-ci:
+	./scripts/local-ci.sh --full
+
+security:
+	./scripts/security-local.sh
+
+security-refresh:
+	./scripts/security-local.sh --refresh-catalogs
 
 # Build image and run Asynqmon server (with default settings).
 # Works with both podman (rootless) and docker; override with

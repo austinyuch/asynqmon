@@ -39,7 +39,11 @@ test("every task state tab shows seeded data (deep-link refresh)", async ({ page
   ];
   for (const [path, expected] of cases) {
     await go(page, path);
-    await expect(page.getByText(expected).first()).toBeVisible();
+    // Retry/archived/completed are asynchronous worker transitions. Keep the
+    // real deep-link assertion, but do not couple CI to a fixed 300 ms delay.
+    await expect(page.getByText(expected).first()).toBeVisible({
+      timeout: 15_000,
+    });
   }
 });
 
