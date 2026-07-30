@@ -2,7 +2,7 @@
 
 ## Verdict
 
-PASS for local implementation and security controls; final hosted build/E2E evidence is required before closure.
+PASS. Local implementation/security controls and hosted build/E2E are green.
 
 ## Dependency and warning evidence
 
@@ -43,3 +43,4 @@ PASS for local implementation and security controls; final hosted build/E2E evid
 - Run `30542886625` failed all seven E2E cases because Vite embedded the Go-only `RootPath` template token inside JavaScript preload URLs. The build now uses relative chunk URLs plus an HTML-only templated `<base>`, and the token gate rejects any future RootPath token in JavaScript.
 - Run `30543778947` proved the MIME/chunk failure was gone but exposed React #130 from MUI icons. Package-wide `"type": "module"` had changed CommonJS default interop; ESM is now scoped to `.mjs`/`.mts` config files instead.
 - A production-bundle browser probe after the interop correction rendered the application shell and Dashboard without React errors. Only expected API 404s were observed because that diagnostic intentionally did not start a backend.
+- Run `30544864270` passed hosted build and all seven real-data E2E cases using checkout/setup-go/setup-node v6.
