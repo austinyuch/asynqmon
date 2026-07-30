@@ -89,7 +89,8 @@ python3 "${repo_root}/scripts/security_evidence_correlate.py" \
   --vex "${repo_root}/.security/vex.json" \
   --output "${evidence_dir}/sast-sbom-cve-kev-correlation.json"
 
-echo "security local: govulncheck ./..."
-(cd "${repo_root}" && govulncheck ./...)
+mapfile -t go_packages < <("${repo_root}/scripts/go-owned-packages.sh")
+echo "security local: govulncheck owned Go packages=${#go_packages[@]}"
+(cd "${repo_root}" && govulncheck "${go_packages[@]}")
 
 echo "security local: passed; evidence in .local-ci/security/"

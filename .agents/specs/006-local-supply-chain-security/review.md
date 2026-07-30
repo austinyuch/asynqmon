@@ -2,8 +2,9 @@
 
 ## Verdict
 
-PASS for repo-side completion on 2026-07-30. PR creation, hosted CI, branch
-reconciliation, and merge were not performed.
+PASS. The security baseline was merged to `dev` by PR #24 and promoted to
+`main` by PR #25. Later closed CRs preserve the same local/hosted security
+baseline.
 
 ## Security review
 
@@ -15,9 +16,8 @@ reconciliation, and merge were not performed.
   client-only Vite SPA uses BrowserRouter and no RSC API. The exact
   advisory/package disposition is tracked in `.security/vex.json`; an exact
   CISA KEV match cannot be waived.
-- Verify before merge: rerun `make security-refresh` and `make local-ci`, then
-  inspect generated receipts. Reconcile `origin/dev`, which is eight commits
-  behind `origin/main`.
+- Closeout verification: local correlated security, pre-push full CI, hosted
+  build/E2E, and promotion CodeQL all passed; `main` and `dev` were synchronized.
 - Risk-registry handoff: not-required. No target-applicable HIGH/CRITICAL or
   KEV finding remains.
 
@@ -26,15 +26,17 @@ reconciliation, and merge were not performed.
 - `./scripts/local-ci.sh --full`: PASS.
 - Go build, vet, race tests: PASS.
 - UI frozen install, lint, Vitest 3/3, TypeScript, Vite build, Go-template
-  token gate: PASS (one pre-existing non-blocking React refs lint warning).
+  token gate: PASS (0 lint errors / 0 rule warnings after CR-2026-07-30-003).
 - Semgrep: 3 rules across Go/JS/TS/Python, 0 findings.
 - CycloneDX: generated, 486 components.
 - Trivy: 1 disclosed advisory, 0 blocking HIGH/CRITICAL.
 - CISA KEV: 0 exact matches; snapshot schema, SHA-256, and freshness validated.
 - Combined SAST/SBOM/CVE/KEV: 486 components, 1 component advisory fully
   resolved, 0 unresolved references, 0 SAST findings, 0 KEV, 0 blocking.
-- `govulncheck ./...`: no vulnerabilities.
-- KEV/VEX unit suite: 6/6 PASS.
+- `govulncheck` across the module-owned Go package allowlist: no vulnerabilities;
+  `*/node_modules/*` generated dependency packages are excluded by
+  CR-2026-07-30-004.
+- KEV/VEX and evidence-correlation unit suites: 8/8 PASS.
 
 ## Dependency and runtime decision
 
