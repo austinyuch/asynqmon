@@ -22,3 +22,5 @@ holding surface:尚未歸屬 spec/CR 的改善項。不是第二份 SPECS.md,也
 | IL-R08 | eslint 鏈缺失(IL-002) | eslint 9 flat config + ts-eslint + react-hooks;0 errors(規則調整逐條記理由);CI lint step | SPEC-005 |
 | IL-R09 | Metrics 頁無真實驗證(IL-004) | Prometheus(29090)+ exporter;真實圖表截圖入 manual;發現 UI 路由實為 `/q/metrics` | SPEC-005 |
 | IL-R06 | Servers/Schedulers/active/retry/completed 頁面從無真實資料佐證(smoke 只有 enqueue-side 狀態) | manual 生成時以 live worker + scheduler seed 補齊 | docs lane(本次) |
+| IL-R11 | hosted E2E retry-state assertion 對非同步 worker transition 使用固定延遲而偶發失敗 | 保留 real-data deep-link assertion,改為 bounded Playwright auto-wait;PR #24/#25 E2E 7/7 | CR-2026-07-30-002(`3c0d1ef`) |
+| IL-R12 | SPEC-006 registry/operational memo 在 PR #24/#25 完成後仍標示 PR pending,且 generated `.code-review/` 汙染 status | 依 upstream PR/check evidence 單次重生 derived surfaces;`.code-review/` 僅 ignore、不刪除 | CR-2026-07-30-001 |

@@ -48,4 +48,5 @@ examples/
 .codex/specs
 # cross-agents symlink bridge: managed end
 temp/
+.code-review/
 .claude/scheduled_tasks.lock
