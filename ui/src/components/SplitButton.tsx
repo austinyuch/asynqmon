@@ -96,7 +96,7 @@ export default function SplitButton(props: Props) {
       </ButtonGroup>
       <Popper
         open={open}
-        anchorEl={anchorRef.current}
+        anchorEl={() => anchorRef.current!}
         role={undefined}
         transition
         disablePortal
