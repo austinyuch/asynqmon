@@ -20,7 +20,8 @@ export GOMODCACHE="${GOMODCACHE:-${repo_root}/.local-ci/go-mod-cache}"
 export GOCACHE="${GOCACHE:-${repo_root}/.local-ci/go-build-cache}"
 export COREPACK_HOME="${COREPACK_HOME:-${repo_root}/.local-ci/corepack}"
 export YARN_CACHE_FOLDER="${YARN_CACHE_FOLDER:-${repo_root}/.local-ci/yarn-cache}"
-mkdir -p "${GOMODCACHE}" "${GOCACHE}" "${COREPACK_HOME}" "${YARN_CACHE_FOLDER}"
+export YARN_GLOBAL_FOLDER="${YARN_GLOBAL_FOLDER:-${repo_root}/.local-ci/yarn-global}"
+mkdir -p "${GOMODCACHE}" "${GOCACHE}" "${COREPACK_HOME}" "${YARN_CACHE_FOLDER}" "${YARN_GLOBAL_FOLDER}"
 
 echo "local CI: Go build, vet, and race tests"
 "${repo_root}/scripts/test-go-owned-packages.sh"
@@ -33,7 +34,7 @@ echo "local CI: owned Go packages=${#go_packages[@]}"
 echo "local CI: UI install, lint, unit tests, and embedded bundle build"
 (
   cd "${repo_root}/ui"
-  corepack yarn install --frozen-lockfile
+  corepack yarn install --immutable
   corepack yarn lint
   corepack yarn test
   corepack yarn build

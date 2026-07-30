@@ -34,7 +34,7 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
 
       - name: Install NPM packages
-        run: cd ui && yarn install --frozen-lockfile
+        run: cd ui && corepack enable && yarn install --immutable
 
       - name: Build Release Binary
         run: |

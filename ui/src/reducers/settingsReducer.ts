@@ -7,7 +7,7 @@ import {
   TOGGLE_DRAWER,
 } from "../actions/settingsActions";
 import { defaultPageSize } from "../components/TablePaginationActions"
-import { DailyStatsKey, defaultDailyStatsKey } from "../views/DashboardView";
+import { DailyStatsKey, defaultDailyStatsKey } from "../dailyStats";
 
 export enum ThemePreference {
   SystemDefault,

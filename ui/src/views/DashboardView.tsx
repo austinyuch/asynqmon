@@ -24,6 +24,7 @@ import Tooltip from "../components/Tooltip";
 import SplitButton from "../components/SplitButton";
 import { usePolling } from "../hooks";
 import DailyStatsChart from "../components/DailyStatsChart";
+import { DailyStatsKey } from "../dailyStats";
 
 const useStyles = makeStyles()((theme) => ({
   container: {
@@ -89,9 +90,6 @@ const mapDispatchToProps = {
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
 type Props = ConnectedProps<typeof connector>;
-
-export type DailyStatsKey = "today" | "last-7d" | "last-30d" | "last-90d";
-export const defaultDailyStatsKey = "last-7d";
 
 function DashboardView(props: Props) {
   const {

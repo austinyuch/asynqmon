@@ -5,7 +5,7 @@ import TextField from "@mui/material/TextField";
 import Autocomplete from '@mui/material/Autocomplete';
 import useMediaQuery from "@mui/material/useMediaQuery";
 import ListSubheader from "@mui/material/ListSubheader";
-import { VariableSizeList, ListChildComponentProps } from "react-window";
+import { List, RowComponentProps } from "react-window";
 import { GroupInfo } from "../api";
 import { isDarkTheme } from "../theme";
 
@@ -47,7 +47,7 @@ export default function GroupSelect(props: Props) {
     <Autocomplete
       id="task-group-selector"
       value={props.selected}
-      onChange={(event: any, newValue: GroupInfo | null) => {
+      onChange={(_event, newValue: GroupInfo | null) => {
         props.onSelect(newValue);
       }}
       inputValue={inputValue}
@@ -84,10 +84,18 @@ export default function GroupSelect(props: Props) {
 // Reference: https://v4.mui.com/components/autocomplete/#virtualization
 
 const LISTBOX_PADDING = 8; // px
+const MAX_VISIBLE_ROWS = 8;
 
-function renderRow(props: ListChildComponentProps) {
-  const { data, index, style } = props;
-  return React.cloneElement(data[index], {
+interface VirtualizedRowProps {
+  itemData: React.ReactNode[];
+}
+
+function renderRow({
+  itemData,
+  index,
+  style,
+}: RowComponentProps<VirtualizedRowProps>) {
+  return React.cloneElement(itemData[index] as React.ReactElement, {
     style: {
       ...style,
       top: (style.top as number) + LISTBOX_PADDING,
@@ -95,21 +103,26 @@ function renderRow(props: ListChildComponentProps) {
   });
 }
 
-const OuterElementContext = React.createContext({});
+export function getVirtualizedChildSize(
+  child: React.ReactNode,
+  itemSize: number
+) {
+  if (React.isValidElement(child) && child.type === ListSubheader) {
+    return 48;
+  }
+  return itemSize;
+}
 
-const OuterElementType = React.forwardRef<HTMLDivElement>((props, ref) => {
-  const outerProps = React.useContext(OuterElementContext);
-  return <div ref={ref} {...props} {...outerProps} />;
-});
-
-function useResetCache(data: any) {
-  const ref = React.useRef<VariableSizeList>(null);
-  React.useEffect(() => {
-    if (ref.current != null) {
-      ref.current.resetAfterIndex(0, true);
-    }
-  }, [data]);
-  return ref;
+export function getVirtualizedListHeight(
+  itemData: React.ReactNode[],
+  itemSize: number
+) {
+  if (itemData.length > MAX_VISIBLE_ROWS) {
+    return MAX_VISIBLE_ROWS * itemSize;
+  }
+  return itemData
+    .map((child) => getVirtualizedChildSize(child, itemSize))
+    .reduce((total, size) => total + size, 0);
 }
 
 // Adapter for react-window
@@ -125,39 +138,25 @@ const ListboxComponent = React.forwardRef<
     const itemCount = itemData.length;
     const itemSize = smUp ? 36 : 48;
 
-    const getChildSize = (child: React.ReactNode) => {
-      if (React.isValidElement(child) && child.type === ListSubheader) {
-        return 48;
-      }
-      return itemSize;
-    };
-
-    const getHeight = () => {
-      if (itemCount > 8) {
-        return 8 * itemSize;
-      }
-      return itemData.map(getChildSize).reduce((a, b) => a + b, 0);
-    };
-
-    const gridRef = useResetCache(itemCount);
-
     return (
       <div ref={ref}>
-        <OuterElementContext.Provider value={other}>
-          <VariableSizeList
-            itemData={itemData}
-            height={getHeight() + 2 * LISTBOX_PADDING}
-            width="100%"
-            ref={gridRef}
-            outerElementType={OuterElementType}
-            innerElementType="ul"
-            itemSize={(index) => getChildSize(itemData[index])}
-            overscanCount={5}
-            itemCount={itemCount}
-          >
-            {renderRow}
-          </VariableSizeList>
-        </OuterElementContext.Provider>
+        <List
+          {...other}
+          rowComponent={renderRow}
+          rowCount={itemCount}
+          rowHeight={(index) =>
+            getVirtualizedChildSize(itemData[index], itemSize)
+          }
+          rowProps={{ itemData }}
+          overscanCount={5}
+          tagName="ul"
+          style={{
+            height:
+              getVirtualizedListHeight(itemData, itemSize) +
+              2 * LISTBOX_PADDING,
+            width: "100%",
+          }}
+        />
       </div>
     );
   }

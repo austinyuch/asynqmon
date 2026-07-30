@@ -1,10 +1,10 @@
 # NEXT_STEPS (rolling operational memo)
 
-- **Classification**: SPEC-001~006 and closed CRs are complete; no active implementation lane
-- **Active spec / lane**: none after CR-2026-07-30-003 promotion
-- **Current phase**: local CI Go package scope hardened; `main` and `dev` synchronized after CR-2026-07-30-004 promotion
-- **Next action**: rank the remaining dependency peer mismatch, tooling warnings, and bundle-size posture before opening another CR
+- **Classification**: completed-baseline CR overlay against SPEC-002/004/005/006
+- **Active spec / lane**: CR-2026-07-30-005 UI modernization; CR-2026-07-30-006 Node 26 compatibility is planned separately
+- **Current phase**: implementation complete for Yarn 4, dependency migrations, and route splitting; exact-clone local CI, review, hosted E2E, and governance closeout remain
+- **Next action**: commit the implementation with CR trace, run canonical full local CI in an exact clone, then dispatch hosted build/E2E without opening a PR
 - **Operational command**: `make security-refresh`, `make security`, and `make local-ci`
 - **Known disposition**: React Router GHSA-qwww-vcr4-c8h2 is limited upstream to unused unstable RSC APIs and remains tracked as not affected in `.security/vex.json`; revisit when a registry-compatible 8.3+ migration is available
-- **Blockers**: none
-- **Resume hint**: registry [SPECS.md](./SPECS.md); resolved history [ISSUE_LOG.md](./ISSUE_LOG.md); traceability [RTM.md](./RTM.md)
+- **Blockers**: linked worktrees cannot preserve normal Go VCS stamping on this host because their `.git` file falls through to an outer Git repository; exact-clone verification is the approved evidence path. Local real-data E2E has no asynqmon registry entry/helper, so hosted workflow dispatch is the non-bypassing runtime path.
+- **Resume hint**: CR implementation/tasks [CR-2026-07-30-005](./004-ui-react16-to-react18-router6-migration/change-requests/CR-2026-07-30-005.md); Node plan [CR-2026-07-30-006](./002-ui-build-migration-cra-to-vite/change-requests/CR-2026-07-30-006.md)

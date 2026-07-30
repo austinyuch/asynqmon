@@ -6,7 +6,7 @@ CONTAINER_RUNTIME ?= $(shell command -v podman >/dev/null 2>&1 && echo podman ||
 CONTAINER_HOST_ALIAS := $(if $(findstring podman,$(CONTAINER_RUNTIME)),host.containers.internal,host.docker.internal)
 
 assets:
-	cd ./ui && yarn install --frozen-lockfile && yarn build
+	cd ./ui && corepack yarn install --immutable && corepack yarn build
 
 # This target skips the overhead of building UI assets.
 # Intended to be used during development.

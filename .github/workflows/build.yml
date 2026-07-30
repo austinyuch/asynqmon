@@ -46,7 +46,7 @@ jobs:
         run: |
           cd ui
           corepack enable
-          yarn install --frozen-lockfile --ignore-engines
+          yarn install --immutable
           yarn lint
           yarn test
 
@@ -90,6 +90,6 @@ jobs:
         run: |
           cd ui
           corepack enable
-          yarn install --frozen-lockfile --ignore-engines
+          yarn install --immutable
           npx playwright install chromium --with-deps
           ASYNQMON_BASE_URL=http://localhost:8080 npx playwright test e2e/smoke.spec.ts

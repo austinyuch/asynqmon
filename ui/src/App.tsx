@@ -11,6 +11,7 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
+import CircularProgress from "@mui/material/CircularProgress";
 import Snackbar from "@mui/material/Snackbar";
 import SnackbarContent from "@mui/material/SnackbarContent";
 import IconButton from "@mui/material/IconButton";
@@ -31,20 +32,18 @@ import { isDarkTheme, useTheme } from "./theme";
 import { closeSnackbar } from "./actions/snackbarActions";
 import { toggleDrawer } from "./actions/settingsActions";
 import ListItemLink from "./components/ListItemLink";
-import SchedulersView from "./views/SchedulersView";
-import DashboardView from "./views/DashboardView";
-import TasksView from "./views/TasksView";
-import TaskDetailsView from "./views/TaskDetailsView";
-import SettingsView from "./views/SettingsView";
-import ServersView from "./views/ServersView";
-import RedisInfoView from "./views/RedisInfoView";
-import MetricsView from "./views/MetricsView";
-import PageNotFoundView from "./views/PageNotFoundView";
 import Logo from "./images/logo-color.svg?react";
 import LogoDarkTheme from "./images/logo-white.svg?react";
 
-
-
+const SchedulersView = React.lazy(() => import("./views/SchedulersView"));
+const DashboardView = React.lazy(() => import("./views/DashboardView"));
+const TasksView = React.lazy(() => import("./views/TasksView"));
+const TaskDetailsView = React.lazy(() => import("./views/TaskDetailsView"));
+const SettingsView = React.lazy(() => import("./views/SettingsView"));
+const ServersView = React.lazy(() => import("./views/ServersView"));
+const RedisInfoView = React.lazy(() => import("./views/RedisInfoView"));
+const MetricsView = React.lazy(() => import("./views/MetricsView"));
+const PageNotFoundView = React.lazy(() => import("./views/PageNotFoundView"));
 
 const drawerWidth = 220;
 
@@ -150,7 +149,7 @@ const mapDispatchToProps = {
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
 function SlideUpTransition(
-  props: TransitionProps & { children: React.ReactElement<any, any> }
+  props: TransitionProps & { children: React.ReactElement }
 ) {
   return <Slide {...props} direction="up" />;
 }
@@ -278,17 +277,26 @@ function App(props: ConnectedProps<typeof connector>) {
               </Drawer>
               <main className={classes.content}>
                 <div className={classes.contentWrapper}>
-                  <Routes>
-                    <Route path={paths.TASK_DETAILS} element={<TaskDetailsView />} />
-                    <Route path={paths.QUEUE_DETAILS} element={<TasksView />} />
-                    <Route path={paths.SCHEDULERS} element={<SchedulersView />} />
-                    <Route path={paths.SERVERS} element={<ServersView />} />
-                    <Route path={paths.REDIS} element={<RedisInfoView />} />
-                    <Route path={paths.SETTINGS} element={<SettingsView />} />
-                    <Route path={paths.HOME} element={<DashboardView />} />
-                    <Route path={paths.QUEUE_METRICS} element={<MetricsView />} />
-                    <Route path="*" element={<PageNotFoundView />} />
-                  </Routes>
+                  <React.Suspense
+                    fallback={
+                      <CircularProgress
+                        aria-label="Loading page"
+                        sx={{ margin: "auto" }}
+                      />
+                    }
+                  >
+                    <Routes>
+                      <Route path={paths.TASK_DETAILS} element={<TaskDetailsView />} />
+                      <Route path={paths.QUEUE_DETAILS} element={<TasksView />} />
+                      <Route path={paths.SCHEDULERS} element={<SchedulersView />} />
+                      <Route path={paths.SERVERS} element={<ServersView />} />
+                      <Route path={paths.REDIS} element={<RedisInfoView />} />
+                      <Route path={paths.SETTINGS} element={<SettingsView />} />
+                      <Route path={paths.HOME} element={<DashboardView />} />
+                      <Route path={paths.QUEUE_METRICS} element={<MetricsView />} />
+                      <Route path="*" element={<PageNotFoundView />} />
+                    </Routes>
+                  </React.Suspense>
                 </div>
               </main>
             </div>

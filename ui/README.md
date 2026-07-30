@@ -13,7 +13,7 @@ Instead of plain JavaScript, we use [TypeScript](https://www.typescriptlang.org/
 To work with the React UI code, you will need to have the following tools installed:
 
 - The [Node.js](https://nodejs.org/) JavaScript runtime.
-- The [Yarn](https://yarnpkg.com/) package manager.
+- [Corepack](https://github.com/nodejs/corepack), which runs the repository-pinned Yarn version.
 - _Recommended:_ An editor with TypeScript, React, and [ESLint](https://eslint.org/) linting support. See e.g. [Create React App's editor setup instructions](https://create-react-app.dev/docs/setting-up-your-editor/). If you are not sure which editor to use, we recommend using [Visual Studio Code](https://code.visualstudio.com/docs/languages/typescript). Make sure that [the editor uses the project's TypeScript version rather than its own](https://code.visualstudio.com/docs/typescript/typescript-compiling#_using-the-workspace-version-of-typescript).
 
 **NOTE**: When using Visual Studio Code, be sure to open the `ui/` directory in the editor instead of the root of the repository. This way, the right ESLint and TypeScript configuration will be picked up from the React workspace.
@@ -22,9 +22,9 @@ To work with the React UI code, you will need to have the following tools instal
 
 The React UI depends on a large number of [npm](https://www.npmjs.com/) packages. These are not checked in, so you will need to download and install them locally via the Yarn package manager:
 
-    yarn
+    corepack yarn install --immutable
 
-Yarn consults the `package.json` and `yarn.lock` files for dependencies to install. It creates a `node_modules` directory with all installed dependencies.
+The pinned Yarn version consults `package.json`, `.yarnrc.yml`, and `yarn.lock`. The repository deliberately uses Yarn's `node-modules` linker so existing tools receive a conventional `node_modules` directory.
 
 **NOTE**: Remember to change directory to `ui/` before running this command and the following commands.
 
@@ -32,7 +32,7 @@ Yarn consults the `package.json` and `yarn.lock` files for dependencies to insta
 
 You can start a development server for the React UI outside of a running Asynqmon server by running:
 
-    yarn start
+    corepack yarn start
 
 This will open a browser window with the React app running on http://localhost:3000/. The page will reload if you make edits to the source code. You will also see any lint errors in the console.
 
@@ -40,7 +40,7 @@ This will open a browser window with the React app running on http://localhost:3
 
 To build a production-optimized version of the React app to a `build` subdirectory, run:
 
-    yarn build
+    corepack yarn build
 
 **NOTE:** You will likely not need to do this directly. Instead, this is taken care of by the `build` target in the main Asynqmon `Makefile` when building the full binary.
 
