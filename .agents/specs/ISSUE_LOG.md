@@ -24,3 +24,4 @@ holding surface:尚未歸屬 spec/CR 的改善項。不是第二份 SPECS.md,也
 | IL-R06 | Servers/Schedulers/active/retry/completed 頁面從無真實資料佐證(smoke 只有 enqueue-side 狀態) | manual 生成時以 live worker + scheduler seed 補齊 | docs lane(本次) |
 | IL-R11 | hosted E2E retry-state assertion 對非同步 worker transition 使用固定延遲而偶發失敗 | 保留 real-data deep-link assertion,改為 bounded Playwright auto-wait;PR #24/#25 E2E 7/7 | CR-2026-07-30-002(`3c0d1ef`) |
 | IL-R12 | SPEC-006 registry/operational memo 在 PR #24/#25 完成後仍標示 PR pending,且 generated `.code-review/` 汙染 status | 依 upstream PR/check evidence 單次重生 derived surfaces;`.code-review/` 僅 ignore、不刪除 | CR-2026-07-30-001 |
+| IL-R13 | `SplitButton` 在 render 階段讀取 `anchorRef.current`,每次 lint 產生 React correctness warning | 使用 MUI Popper lazy `anchorEl` callback,保留相同 anchor/click-away 行為 | CR-2026-07-30-003 |
