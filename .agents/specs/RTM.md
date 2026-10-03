@@ -32,3 +32,7 @@ Cross-cutting evidence:`.agents/specs/TESTS.md`(rollup)、`ui/TESTS.md`(row-leve
 ## Security maintenance verification — 2026-10-03
 
 SPEC-001/002/006 maintenance evidence: [security refresh](../../docs/security-refresh-2026-10-03.md). Go 1.26.8 / Node 24.21.0 full local CI and final embedded-asset Go checks passed; 10 UI tests, 488 SBOM components, zero blocking CVE/KEV/SAST/govulncheck findings. Hosted PR verification and remote promotion are reported separately; local evidence alone does not assert hosted E2E or cross-family review.
+
+## Go 1.27.1 baseline verification — 2026-10-03
+
+[Toolchain verification](../../docs/go-1.27.1-vite-verification-2026-10-03.md): minimum Go/CI/Docker builder aligned to 1.27.1, Vite manifest aligned to registry latest 8.3.2, .mts lint globals fixed. Full local CI passed (10 UI tests, 488 SBOM components, zero SAST/CVE/KEV/govulncheck); hosted promotion evidence remains separate.

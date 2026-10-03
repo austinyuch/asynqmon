@@ -19,7 +19,7 @@ RUN corepack enable && yarn install --immutable && yarn build
 # Building a backend.
 #
 
-FROM golang:1.26-alpine AS backend
+FROM golang:1.27.1-alpine AS backend
 
 # Move to a working directory (/build).
 WORKDIR /build
