@@ -32,15 +32,15 @@ git config core.hooksPath githooks   # 啟用 canonical local CI pre-push gate
 | 範圍 | 內容 | 原因 |
 |---|---|---|
 | Module path | `github.com/hibiken/asynqmon` → `github.com/austinyuch/asynqmon`(go.mod + 全部 import + README 範例) | 下游直接 require,免 `replace` |
-| asynq 依賴 | `hibiken/asynq v0.24.1` → `austinyuch/asynq v0.26.0-team.2`;`hibiken/asynq/x`(pseudo-version)→ `austinyuch/asynq/x v0.1.0-team.2` | 吃到團隊 fork 的 security release(CVE-2026-56852 dependency closure、CWE-190 saturation fix、go-redis v9.21.0) |
-| Dependencies | gorilla/mux v1.8.1、rs/cors v1.11.1(DoS fix)、prometheus/client_golang v1.24.1、direct go-redis v9.21.0(asynq fork 仍管理其 own transitive contract) | security hardening / CVE 面收斂 |
-| Go toolchain | `go 1.16` → `go 1.26` + `toolchain go1.26.4`;CI 用 1.26.x | 跟上 supported releases,與 asynq fork team.2 的最低版本一致 |
+| asynq 依賴 | `hibiken/asynq v0.24.1` → `austinyuch/asynq v0.26.0-team.3`;`hibiken/asynq/x`(pseudo-version)→ `austinyuch/asynq/x v0.1.0-team.3` | 吃到團隊 fork 的 security release(CVE-2026-56852 dependency closure、CWE-190 saturation fix、go-redis v9.22.0) |
+| Dependencies | gorilla/mux v1.8.1、rs/cors v1.11.1(DoS fix)、prometheus/client_golang v1.24.1、direct go-redis v9.22.0(asynq fork 仍管理其 own transitive contract) | security hardening / CVE 面收斂 |
+| Go toolchain | `go 1.16` → `go 1.26` + `toolchain go1.26.8`;CI 用 1.26.x | 跟上 supported releases,與 asynq fork team.2 的最低版本一致 |
 | `cmd/asynqmon/main_test.go` | sentinel URI 測試期望改為 `SentinelPassword`(原註解即標 FIXME) | asynq `c08f142`(v0.25+)修正 sentinel URI 解析行為 |
 | CI | 新增 `build.yml`(PR → dev/main;Go build/vet/test + UI lint/vitest;另有 `e2e` job 跑 canonical demo browser smoke;valkey 9.1.0 service);codeql / docker-publish 改 target `main`;docker-publish 改 manual-only(遠端發佈暫緩,local podman 為 canonical——見 IL-R10);release.yml 改 Go 1.26.x + Node 24，移除停止維護的 release actions，改以 GitHub CLI 上傳 assets；checkout/setup-go/setup-node 升 v6，CodeQL 升 v3 + `security-events: write` | 配合 branch model、Node 24 action runtime 與 least-privilege fork 發佈通道 |
 | `Dockerfile` | backend stage `golang:1.18-alpine` → `golang:1.26-alpine` | go 1.26 module 需要新 toolchain |
 | Docs | README 的 import 範例 / docker image / godoc / releases 連結改 fork path;指向 upstream wiki、issues、license 的連結刻意保留 | 反映 fork 現況 |
-| UI runtime deps | axios 1.19.0、clsx 2.1.1、dayjs 1.11.21;resolutions:prismjs 1.30.0、brace-expansion 5.0.8、form-data 4.0.6、js-yaml 4.3.0、postcss 8.5.18、undici 7.28.0 等;`ui/build/` 以修復後依賴重建 | SPEC-001/006 vuln 收斂 |
-| UI frameworks | React 16.14 → **18.3.1**(SPEC-004);@material-ui v4 → **@mui v5** + emotion + tss-react(SPEC-003);react-router 5 → **7.18.2**;react-redux 9 + RTK 2;TS 4.9 → **5.9**;recharts 2.15;@testing-library/redux-devtools 等未使用件移除 | EOL majors 清零;router 8.3.0 registry availability/migration deferred,unstable RSC-only advisory tracked in `.security/vex.json` |
+| UI runtime deps | query-string 9.5.1、axios 1.20.0、clsx 2.1.1、dayjs 1.11.23;resolutions:prismjs 1.30.0、brace-expansion 5.0.12、form-data 4.0.6、js-yaml 4.3.2、postcss 8.5.23、undici 7.29.1 等;`ui/build/` 以修復後依賴重建 | SPEC-001/006 vuln 收斂 |
+| UI frameworks | React 16.14 → **18.3.1**(SPEC-004);@material-ui v4 → **@mui v5** + emotion + tss-react(SPEC-003);react-router 5 → **7.18.4**;react-redux 9 + RTK 2;TS 4.9 → **5.9**;recharts 2.15;@testing-library/redux-devtools 等未使用件移除 | EOL majors 清零;router 8.3.0 registry availability/migration deferred,unstable RSC-only advisory tracked in `.security/vex.json` |
 | UI build toolchain | CRA/react-scripts → **Vite 8** + vite-plugin-svgr + Vitest;`pretty-bytes` 補為直接依賴(原為幽靈依賴);`index.html` 移至 ui/ 根、Go template token 由 `goTemplateBaseGuard` plugin + post-build gate 保護;Dockerfile frontend `alpine:3.17`→`node:24-alpine`(移除 openssl-legacy hack);Makefile/release.yml 同步 | SPEC-002:CRA 已 EOL,build 鏈 58 critical 無修復出路(`.agents/specs/002-ui-build-migration-cra-to-vite/`);SPEC-006 對齊 2026-07 最新 LTS Node 24 |
 | Container build | Dockerfile 改用 `TARGETOS`/`TARGETARCH`(修正寫死 amd64,arm64 可建);Makefile 自動偵測 podman/docker 與 host alias。註:主要消費型態為 Go library(`go:embed` UI bundle),容器路徑為次要部署選項 | Podman rootless / arm64 友善 |
 | Local supply-chain CI | `scripts/local-ci.sh` + pre-push:Go build/vet/race、UI frozen install/lint/test/build、Semgrep、CycloneDX、Trivy CVE、CISA KEV exact-match、govulncheck;證據在 ignored `.local-ci/`;`.security/vex.json` 為 tracked narrow disposition | SPEC-006 shift-left;missing/stale/tampered evidence fail closed |
@@ -48,6 +48,8 @@ git config core.hooksPath githooks   # 啟用 canonical local CI pre-push gate
 
 已知未動(follow-up 候選):
 - 遠端 image 發佈(DockerHub)暫緩中——需要時手動觸發 workflow 並補 secrets(IL-R10 記錄 re-open 條件)
+
+最新安全更新證據：[2026-10-03 SBOM/CVE/KEV refresh](docs/security-refresh-2026-10-03.md)。
 
 ## Sync log
 

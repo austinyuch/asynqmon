@@ -28,3 +28,7 @@
 | REQ-UIMOD-004 route-level code splitting | SPEC-004 CR-2026-07-30-005 | UIMOD-T4/T5 | PASS | entry 1,244,238→415,980 bytes;aggregate 1,260,924 bytes;token gate + hosted E2E 7/7 |
 
 Cross-cutting evidence:`.agents/specs/TESTS.md`(rollup)、`ui/TESTS.md`(row-level)、FORK.md divergence 表。
+
+## Security maintenance verification — 2026-10-03
+
+SPEC-001/002/006 maintenance evidence: [security refresh](../../docs/security-refresh-2026-10-03.md). Go 1.26.8 / Node 24.21.0 full local CI and final embedded-asset Go checks passed; 10 UI tests, 488 SBOM components, zero blocking CVE/KEV/SAST/govulncheck findings. Hosted PR verification and remote promotion are reported separately; local evidence alone does not assert hosted E2E or cross-family review.
