@@ -1,8 +1,6 @@
 module github.com/austinyuch/asynqmon
 
-go 1.26.0
-
-toolchain go1.26.8
+go 1.27.1
 
 require (
 	github.com/austinyuch/asynq v0.26.0-team.3
