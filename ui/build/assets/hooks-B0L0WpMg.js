@@ -1,0 +1,1 @@
+import{a as e}from"./rolldown-runtime-B0Z9INg1.js";import{Wt as t}from"./Typography-zoiXXWVr.js";import{At as n}from"./utils-BJRYfxP5.js";var r=e(t());function i(e,t){(0,r.useEffect)(()=>{e();let n=setInterval(e,t*1e3);return()=>clearInterval(n)},[t,e])}function a(){let{search:e}=n();return(0,r.useMemo)(()=>new URLSearchParams(e),[e])}export{a as n,i as t};
